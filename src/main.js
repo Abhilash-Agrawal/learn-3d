@@ -8,6 +8,7 @@ import { City } from './city/City.js';
 // import { WeatherSystem } from './effects/WeatherSystem.js';
 import { DayNightCycle } from './effects/DayNightCycle.js';
 import { SelectionManager } from './core/SelectionManager.js';
+import { CameraController } from './core/CameraController.js';
 // WebGL renderer will be created later
 // import { Actor } from './actor/Actor.js';
 import { CityEditor } from './editor/CityEditor.js';
@@ -44,7 +45,6 @@ class SirenApp {
       console.log('WebGL:', webgl.renderer, webgl.vendor);
       
       this.canvas = document.getElementById('canvas');
-      this.canvas.style.pointerEvents = 'none';
       this.uiOverlay = document.getElementById('ui-overlay');
       
       if (!this.canvas) throw new Error('Canvas not found');
@@ -57,11 +57,12 @@ class SirenApp {
       // this.unitManager = new UnitManager(this.sceneManager.scene, this.city);
       // this.weatherSystem = new WeatherSystem(this.sceneManager.scene, this.lighting);
       this.dayNightCycle = new DayNightCycle(this.sceneManager.scene, this.lighting);
-      this.selectionManager = new SelectionManager(this.sceneManager.scene, null, this.city);
       
       this.camera = this.sceneManager.camera;
       this.camera.position.set(0, 40, 60);
       this.camera.lookAt(0, 0, 0);
+      this.cameraController = new CameraController(this.camera, this.canvas);
+      this.selectionManager = new SelectionManager(this.sceneManager.scene, this.camera, this.city);
       
       this.editor = new CityEditor(
         this.sceneManager.scene,
@@ -122,6 +123,7 @@ class SirenApp {
       // this.unitManager.update(delta, elapsed, this.incidentManager, this.city);
       // this.weatherSystem.update(delta, elapsed);
       this.dayNightCycle.update(delta, elapsed);
+      this.cameraController.update();
       this.selectionManager.update(delta, elapsed);
       // this.uiManager.update(delta, elapsed);
       

@@ -143,7 +143,12 @@ export class CityEditor {
         this.clearPreview();
       }
       if (e.key === 'Delete' || e.key === 'Backspace') {
-        if (this.selectedObject) this.deleteSelected();
+        if (e.target instanceof HTMLElement && e.target.isContentEditable) return;
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+        if (this.selectedObject) {
+          e.preventDefault();
+          this.deleteSelected();
+        }
       }
     });
   }
@@ -210,8 +215,8 @@ export class CityEditor {
   handleSelect(intersects) {
     let target = null;
     for (const hit of intersects) {
-      if (hit.object.userData.selectable || hit.object.userData.editorObject) {
-        target = hit.object;
+      target = this.findEditableObject(hit.object);
+      if (target) {
         break;
       }
     }
@@ -225,11 +230,29 @@ export class CityEditor {
   
   handleDelete(intersects) {
     for (const hit of intersects) {
-      if (hit.object.userData.selectable || hit.object.userData.editorObject) {
-        this.deleteObject(hit.object);
+      const target = this.findEditableObject(hit.object);
+      if (target) {
+        this.deleteObject(target);
         break;
       }
     }
+  }
+
+  findEditableObject(object) {
+    let current = object;
+    let selectableObject = null;
+    while (current) {
+      if (
+        current.userData.editorObject ||
+        this.city.buildings.some(building => building.mesh === current) ||
+        this.city.roads.some(road => road === current && road.isObject3D)
+      ) {
+        return current;
+      }
+      if (!selectableObject && current.userData.selectable) selectableObject = current;
+      current = current.parent;
+    }
+    return selectableObject;
   }
   
   handlePlaceBuilding(intersects) {
@@ -265,15 +288,8 @@ export class CityEditor {
     this.deselect();
     this.selectedObject = object;
     
-    const outline = new THREE.OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera);
-    outline.edgeStrength = 4;
-    outline.edgeGlow = 1;
-    outline.edgeThickness = 2;
-    outline.visibleEdgeColor.set('#EF4444');
-    outline.hiddenEdgeColor.set('#EF4444');
-    outline.selectedObjects = [object];
-    this.scene.add(outline);
-    this.selectionOutline = outline;
+    this.selectionOutline = new THREE.BoxHelper(object, 0xEF4444);
+    this.scene.add(this.selectionOutline);
     
     this.showObjectInfo(object);
   }
@@ -281,6 +297,8 @@ export class CityEditor {
   deselect() {
     if (this.selectionOutline) {
       this.scene.remove(this.selectionOutline);
+      this.selectionOutline.geometry.dispose();
+      this.selectionOutline.material.dispose();
       this.selectionOutline = null;
     }
     this.selectedObject = null;
@@ -311,20 +329,31 @@ export class CityEditor {
   }
   
   deleteObject(object) {
+    const buildingIndex = this.city.buildings.findIndex(building => building.mesh === object);
+    if (buildingIndex !== -1) {
+      const [building] = this.city.buildings.splice(buildingIndex, 1);
+      this.city.stations = this.city.stations.filter(station => station.entity !== building);
+    }
+
+    const roadIndex = this.city.roads.indexOf(object);
+    if (roadIndex !== -1) this.city.roads.splice(roadIndex, 1);
+
+    if (this.selectedObject === object) this.deselect();
+
     const parent = object.parent;
     if (parent) {
       parent.remove(object);
     }
-    
-    if (object.geometry) object.geometry.dispose();
-    if (object.material) {
-      if (Array.isArray(object.material)) {
-        object.material.forEach(m => m.dispose());
-      } else {
-        object.material.dispose();
-      }
-    }
-    
+
+    const sharedMaterials = new Set(Object.values(this.city.materials));
+    object.traverse?.((child) => {
+      child.geometry?.dispose();
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
+      materials.forEach(material => {
+        if (material && !sharedMaterials.has(material)) material.dispose();
+      });
+    });
+
     this.onChange?.();
   }
   
@@ -390,10 +419,6 @@ export class CityEditor {
   updateRoadPreview() {
     if (!this.previewRoad || this.roadPoints.length !== 1) return;
     
-    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-    
     const intersect = new THREE.Vector3();
     this.raycaster.ray.intersectPlane(this.groundPlane, intersect);
     
@@ -450,10 +475,6 @@ export class CityEditor {
   
   updatePreviewPosition() {
     if (!this.previewMesh) return;
-    
-    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    this.raycaster.setFromCamera(this.mouse, this.camera);
     
     const intersect = new THREE.Vector3();
     this.raycaster.ray.intersectPlane(this.groundPlane, intersect);
@@ -517,32 +538,16 @@ export class CityEditor {
   }
   
   clearCity() {
-    this.city.buildings.forEach(b => {
-      this.scene.remove(b.mesh);
-      if (b.mesh.geometry) b.mesh.geometry.dispose();
-      if (b.mesh.material) {
-        if (Array.isArray(b.mesh.material)) b.mesh.material.forEach(m => m.dispose());
-        else b.mesh.material.dispose();
-      }
-    });
-    this.city.buildings = [];
-    
-    this.city.roads.forEach(r => {
-      this.scene.remove(r);
-      r.traverse(obj => {
-        if (obj.geometry) obj.geometry.dispose();
-        if (obj.material) {
-          if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
-          else obj.material.dispose();
-        }
-      });
-    });
-    this.city.roads = [];
-    
+    this.city.buildings.slice().forEach(building => this.deleteObject(building.mesh));
+    this.city.roads
+      .filter(road => road.isObject3D)
+      .forEach(road => this.deleteObject(road));
+
     this.onChange?.();
   }
   
   update() {
+    if (this.selectionOutline) this.selectionOutline.update();
     if (this.previewRoad && this.mode === 'road' && this.roadPoints.length === 1) {
       this.updateRoadPreview();
     }

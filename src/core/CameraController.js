@@ -6,9 +6,10 @@ export class CameraController {
     this.canvas = canvas;
     
     this.target = new THREE.Vector3(0, 0, 0);
-    this.distance = 30;
-    this.azimuth = Math.PI / 4;
-    this.polar = Math.PI / 3;
+    const spherical = new THREE.Spherical().setFromVector3(camera.position.clone().sub(this.target));
+    this.distance = spherical.radius;
+    this.azimuth = spherical.theta;
+    this.polar = spherical.phi;
     
     this.minDistance = 10;
     this.maxDistance = 100;
@@ -30,6 +31,7 @@ export class CameraController {
     this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
     this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
     this.canvas.addEventListener('mouseup', (e) => this.onMouseUp(e));
+    window.addEventListener('mouseup', (e) => this.onMouseUp(e));
     this.canvas.addEventListener('wheel', (e) => this.onWheel(e), { passive: false });
     this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
   }
