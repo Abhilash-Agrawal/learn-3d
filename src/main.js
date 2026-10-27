@@ -8,7 +8,7 @@ import { City } from './city/City.js';
 // import { WeatherSystem } from './effects/WeatherSystem.js';
 import { DayNightCycle } from './effects/DayNightCycle.js';
 import { SelectionManager } from './core/SelectionManager.js';
-import { CSS2DRenderer } from './lib/CSS2DRenderer.js';
+// WebGL renderer will be created later
 // import { Actor } from './actor/Actor.js';
 import { CityEditor } from './editor/CityEditor.js';
 
@@ -44,6 +44,7 @@ class SirenApp {
       console.log('WebGL:', webgl.renderer, webgl.vendor);
       
       this.canvas = document.getElementById('canvas');
+      this.canvas.style.pointerEvents = 'none';
       this.uiOverlay = document.getElementById('ui-overlay');
       
       if (!this.canvas) throw new Error('Canvas not found');
@@ -69,14 +70,6 @@ class SirenApp {
         this.canvas,
         () => {} // onChange callback
       );
-      
-      this.css2dRenderer = new CSS2DRenderer();
-      this.css2dRenderer.setSize(window.innerWidth, window.innerHeight);
-      this.css2dRenderer.domElement.style.position = 'absolute';
-      this.css2dRenderer.domElement.style.top = '0';
-      this.css2dRenderer.domElement.style.left = '0';
-      this.css2dRenderer.domElement.style.pointerEvents = 'none';
-      document.body.appendChild(this.css2dRenderer.domElement);
       
       this.clock = new THREE.Clock();
       this.running = true;
@@ -110,7 +103,6 @@ class SirenApp {
     try {
       this.sceneManager.onResize();
       // this.uiManager.onResize();
-      this.css2dRenderer.setSize(window.innerWidth, window.innerHeight);
     } catch (e) {
       showError('Resize error: ' + e.message);
     }
@@ -136,7 +128,6 @@ class SirenApp {
       this.editor.update(delta);
       
       this.sceneManager.render();
-      this.css2dRenderer.render(this.sceneManager.scene, this.sceneManager.camera);
     } catch (e) {
       showError('Animation error: ' + e.message + '\n' + e.stack);
       this.running = false;

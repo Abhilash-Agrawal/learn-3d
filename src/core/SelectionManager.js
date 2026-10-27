@@ -1,6 +1,4 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.165/build/three.module.js';
-import { CSS2DObject } from '../lib/CSS2DRenderer.js';
-
 export class SelectionManager {
   constructor(scene, camera, city) {
     this.scene = scene;
@@ -13,9 +11,7 @@ export class SelectionManager {
     this.mouse = new THREE.Vector2();
     
     this.ring = null;
-    this.label = null;
     this.labelElement = null;
-    this.labelObject = null;
     
     this.hoveredObject = null;
     this.hoverRing = null;
@@ -56,9 +52,11 @@ export class SelectionManager {
   initLabel() {
     this.labelElement = document.createElement('div');
     this.labelElement.className = 'label-badge';
-    this.labelObject = new CSS2DObject(this.labelElement);
-    this.labelObject.visible = false;
-    this.scene.add(this.labelObject);
+    this.labelElement.style.position = 'absolute';
+    this.labelElement.style.display = 'none';
+    this.labelElement.style.pointerEvents = 'none';
+    this.labelElement.style.userSelect = 'none';
+    document.body.appendChild(this.labelElement);
   }
   
   bindEvents() {
@@ -142,14 +140,14 @@ export class SelectionManager {
     this.ring.visible = true;
     
     this.updateLabel(entity, type);
-    this.labelObject.visible = true;
+    this.labelElement.style.display = '';
   }
   
   deselect() {
     this.selectedObject = null;
     this.selectedType = null;
     this.ring.visible = false;
-    this.labelObject.visible = false;
+    this.labelElement.style.display = 'none';
   }
   
   hover(entity, type) {
@@ -193,8 +191,8 @@ export class SelectionManager {
     this.labelElement.className = className;
     
     const position = entity.getPosition ? entity.getPosition() : entity.position.clone();
-    this.labelObject.position.copy(position);
-    this.labelObject.position.y += (entity.getRingScale ? entity.getRingScale() : 1) * 10 + 15;
+    this.labelElement.style.left = `${position.x}px`;
+    this.labelElement.style.top = `${position.y}px`;
   }
   
   update(delta, elapsed) {
