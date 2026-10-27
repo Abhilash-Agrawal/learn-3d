@@ -22,6 +22,10 @@ export class CityEditor {
     this.selectedObject = null;
     this.hoveredObject = null;
     
+    this.isDragging = false;
+    this.draggedObject = null;
+    this.dragStartPosition = new THREE.Vector3();
+    
     this.buildingTypes = [
       { id: 'tower', name: 'Tower', icon: '🏢', color: 0x6B7280 },
       { id: 'residential', name: 'Residential', icon: '🏠', color: 0x9CA3AF },
@@ -136,6 +140,9 @@ export class CityEditor {
     this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
     this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
     
+    this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
+    this.canvas.addEventListener('mouseup', (e) => this.onMouseUp(e));
+    
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.setMode('select');
@@ -209,7 +216,50 @@ export class CityEditor {
       this.updatePreviewPosition();
     } else if (this.mode === 'road' && this.roadPoints.length === 1) {
       this.updateRoadPreview();
+    } else if (this.isDragging) {
+      this.dragObject(event);
     }
+  }
+  
+  onMouseDown(event) {
+    if (event.target !== this.canvas) return;
+    
+    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    
+    const intersects = this.raycaster.intersectObjects(this.scene.children, true);
+    let target = null;
+    
+    for (const hit of intersects) {
+      target = this.findEditableObject(hit.object);
+      if (target) {
+        break;
+      }
+    }
+    
+    if (target) {
+      this.isDragging = true;
+      this.draggedObject = target;
+      this.dragStartPosition.set(target.position.x, target.position.y, target.position.z);
+    }
+  }
+  
+  onMouseUp(event) {
+    if (this.isDragging) {
+      this.isDragging = false;
+      this.draggedObject = null;
+    }
+  }
+  
+  dragObject(event) {
+    if (!this.draggedObject) return;
+    
+    const intersect = new THREE.Vector3();
+    this.raycaster.ray.intersectPlane(this.groundPlane, intersect);
+    
+    this.draggedObject.position.set(intersect.x, 0, intersect.z);
+    this.onChange?.();
   }
   
   handleSelect(intersects) {

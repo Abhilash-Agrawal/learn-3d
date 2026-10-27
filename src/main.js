@@ -52,7 +52,7 @@ class SirenApp {
       
       this.sceneManager = new SceneManager(this.canvas);
       this.lighting = new Lighting(this.sceneManager.scene);
-      this.city = new City(this.sceneManager.scene);
+      this.city = new City(this.sceneManager.scene, 10);  // Initial building count
       // this.incidentManager = new IncidentManager(this.sceneManager.scene, this.city);
       // this.unitManager = new UnitManager(this.sceneManager.scene, this.city);
       // this.weatherSystem = new WeatherSystem(this.sceneManager.scene, this.lighting);

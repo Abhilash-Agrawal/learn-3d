@@ -12,9 +12,9 @@ export class CameraController {
     this.polar = spherical.phi;
     
     this.minDistance = 10;
-    this.maxDistance = 100;
-    this.minPolar = 0.3;
-    this.maxPolar = Math.PI / 2 - 0.1;
+    this.maxDistance = 1000;
+    this.minPolar = 0;
+    this.maxPolar = Math.PI;
     
     this.isMouseDown = false;
     this.isRightMouseDown = false;

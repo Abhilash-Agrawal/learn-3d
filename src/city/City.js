@@ -9,7 +9,7 @@ import { Ground } from './terrain/Ground.js';
 import { RoadNetwork } from './RoadNetwork.js';
 
 export class City {
-  constructor(scene) {
+  constructor(scene, initialResidentialCount = 5) {
     this.scene = scene;
     this.buildings = [];
     this.terrain = [];
@@ -19,6 +19,7 @@ export class City {
     this.blockSize = 80;
     this.cityBounds = { min: new THREE.Vector3(-800, 0, -800), max: new THREE.Vector3(800, 0, 800) };
     
+    this.initialResidentialCount = initialResidentialCount;
     this.materials = this.createMaterials();
   }
   
@@ -246,27 +247,23 @@ export class City {
     });
   }
   
-  createResidentialAreas() {
-    const areas = [
-      { x: -300, z: 100, rows: 2, cols: 2 },
-      { x: 300, z: 100, rows: 2, cols: 2 },
-    ];
+createResidentialAreas() {
+    // Generate residential blocks distributed across the city
+    const created = new Set();
     
-    areas.forEach(area => {
-      for (let row = 0; row < area.rows; row++) {
-        for (let col = 0; col < area.cols; col++) {
-          const x = area.x + (col - (area.cols - 1) / 2) * this.blockSize * 0.8;
-          const z = area.z + (row - (area.rows - 1) / 2) * this.blockSize * 0.8;
-          
-          if (Math.random() < 0.6) {
-            const block = new ResidentialBlock(this.materials);
-            block.generate(x, z);
-            this.scene.add(block.mesh);
-            this.buildings.push(block);
-          }
-        }
-      }
-    });
+    while (this.buildings.length - this.stations.length - this.buildings.filter(b => b instanceof Tower || b instanceof Park || b instanceof FireStation || b instanceof PoliceStation || b instanceof Hospital).length < this.initialResidentialCount) {
+      const x = (Math.random() - 0.5) * 600;
+      const z = (Math.random() - 0.5) * 600;
+      
+      // Avoid overlapping with existing buildings too much
+      const tooClose = this.buildings.some(b => b.position.distanceTo(new THREE.Vector3(x, 0, z)) < 100);
+      if (tooClose) continue;
+      
+      const block = new ResidentialBlock(this.materials);
+      block.generate(x, z);
+      this.scene.add(block.mesh);
+      this.buildings.push(block);
+    }
   }
   
   createParks() {

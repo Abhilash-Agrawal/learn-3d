@@ -9,31 +9,7 @@ export class ResidentialBlock {
   
   generate(x, z) {
     this.mesh.position.set(x, 0, z);
-    
-    const layout = Math.random() < 0.5 ? 'row' : 'cluster';
-    
-    if (layout === 'row') {
-      const count = 3 + Math.floor(Math.random() * 3);
-      const spacing = 22;
-      const startX = -(count - 1) * spacing / 2;
-      
-      for (let i = 0; i < count; i++) {
-        this.createHouse(startX + i * spacing, 0);
-      }
-    } else {
-      const rows = 2;
-      const cols = 2;
-      const spacing = 24;
-      
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          const hx = (col - (cols - 1) / 2) * spacing;
-          const hz = (row - (rows - 1) / 2) * spacing;
-          this.createHouse(hx, hz);
-        }
-      }
-    }
-    
+    this.createHouse(0, 0);
     this.addLandscaping();
   }
   
