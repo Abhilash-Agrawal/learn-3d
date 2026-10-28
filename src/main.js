@@ -52,7 +52,11 @@ class SirenApp {
       
       this.sceneManager = new SceneManager(this.canvas);
       this.lighting = new Lighting(this.sceneManager.scene);
-      this.city = new City(this.sceneManager.scene, 10);  // Initial building count
+this.city = new City(this.sceneManager.scene, 0);  // No auto-generated buildings
+      this.highway = new Highway(this.city.materials);
+      this.highway.generate();
+      this.scene.add(this.highway.mesh);
+      
       // this.incidentManager = new IncidentManager(this.sceneManager.scene, this.city);
       // this.unitManager = new UnitManager(this.sceneManager.scene, this.city);
       // this.weatherSystem = new WeatherSystem(this.sceneManager.scene, this.lighting);
@@ -85,7 +89,8 @@ class SirenApp {
   
   init() {
     try {
-      this.city.generate();
+      // City generation deferred - start with just highway
+      // this.city.generate();
       // this.incidentManager.spawnInitialIncidents();
       // this.unitManager.spawnInitialUnits();
       // this.uiManager.init();
