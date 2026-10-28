@@ -85,8 +85,7 @@ class SirenApp {
   
   init() {
     try {
-      // City generation deferred - start with empty scene
-      // this.city.generate();
+      this.city.generate();
       // this.incidentManager.spawnInitialIncidents();
       // this.unitManager.spawnInitialUnits();
       // this.uiManager.init();
