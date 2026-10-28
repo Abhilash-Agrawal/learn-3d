@@ -35,6 +35,13 @@ export class CityEditor {
       { id: 'hospital', name: 'Hospital', icon: '🏥', color: 0xEF4444 }
     ];
     
+    this.roadTypes = [
+      { id: 'main', name: 'Main Road', icon: '🛣️', color: 0xEF4444 },
+      { id: 'small', name: 'Small Road', icon: '🛣️', color: 0xF97316 },
+      { id: 'curved', name: 'Curved Road', icon: '🛣️', color: 0xEC4899 },
+      { id: 'diversion', name: 'Diversion', icon: '🛣️', color: 0x8B5CF6 }
+    ];
+    
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
     this.groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
@@ -117,6 +124,30 @@ export class CityEditor {
     this.loadBtn = this.panel.querySelector('#btn-load');
     this.clearBtn = this.panel.querySelector('#btn-clear');
     this.buildingPalette = this.panel.querySelector('#building-palette');
+    this.roadPalette = this.panel.querySelector('#road-palette');
+    this.roadTypeButtons = this.panel.querySelectorAll('.road-palette .palette-btn');
+    
+    this.roadPalette = document.createElement('div');
+    this.roadPalette.id = 'road-palette';
+    this.roadPalette.style.cssText = `
+      display:none;
+      margin-bottom:16px;
+    `;
+    this.roadPalette.innerHTML = `
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:12px;font-weight:600;color:#9CA3AF;margin-bottom:8px;">Road Type</label>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+          ${this.roadTypes.map(rt => `
+            <button data-type="${rt.id}" class="palette-btn" style="padding:8px;border:1px solid #374151;background:#1F2937;color:white;border-radius:6px;font-size:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;" title="${rt.name}">
+              <span style="font-size:18px;">${rt.icon}</span>
+              <span>${rt.name}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    
+    this.panel.appendChild(this.roadPalette);
   }
   
   bindEvents() {
@@ -126,6 +157,10 @@ export class CityEditor {
     
     this.paletteButtons.forEach(btn => {
       btn.addEventListener('click', () => this.setBuildingType(btn.dataset.type));
+    });
+    
+    this.roadTypeButtons.forEach(btn => {
+      btn.addEventListener('click', () => this.setRoadType(btn.dataset.type));
     });
     
     this.closeBtn.addEventListener('click', () => {
@@ -179,6 +214,15 @@ export class CityEditor {
   setBuildingType(type) {
     this.buildingType = type;
     this.paletteButtons.forEach(btn => {
+      const active = btn.dataset.type === type;
+      btn.style.background = active ? '#EF4444' : '#1F2937';
+      btn.style.borderColor = active ? '#EF4444' : '#374151';
+    });
+  }
+  
+  setRoadType(type) {
+    this.roadType = type;
+    this.roadTypeButtons.forEach(btn => {
       const active = btn.dataset.type === type;
       btn.style.background = active ? '#EF4444' : '#1F2937';
       btn.style.borderColor = active ? '#EF4444' : '#374151';
@@ -489,7 +533,12 @@ export class CityEditor {
   
   createRoad(start, end) {
     const road = new THREE.Group();
-    road.userData = { selectable: true, editorObject: true, editorType: 'Road', roadType: 'street' };
+    road.userData = { 
+      selectable: true, 
+      editorObject: true, 
+      editorType: 'Road',
+      roadType: this.roadType || 'street' 
+    };
     
     const direction = new THREE.Vector3().subVectors(end, start);
     const length = direction.length();

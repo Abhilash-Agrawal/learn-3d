@@ -17,11 +17,13 @@ export class RoadNetwork {
     this.buildings = [];
   }
   
-  generate() {
+generate() {
     this.createMainRoad();
+    this.createSmallRoads();
+    this.createCurvedRoads();
+    this.createDiversions();
     this.createCrossStreets();
     this.createBuildingsAlongRoads();
-    this.createParks();
   }
   
   createMainRoad() {
@@ -71,6 +73,181 @@ export class RoadNetwork {
       width: totalWidth,
       lanes: lanesPerDirection * 2
     });
+  }
+  
+  createSmallRoads() {
+    const roadLength = 200;
+    const streetWidth = 12;
+    
+    const streetMat = new THREE.MeshStandardMaterial({
+      color: 0x6B7280, roughness: 0.9, metalness: 0.1, flatShading: true
+    });
+    
+    const lineMat = new THREE.MeshStandardMaterial({
+      color: 0xFFFFFF, roughness: 0.3, metalness: 0.7, emissive: 0xF59E0B, emissiveIntensity: 0.3, flatShading: true
+    });
+    
+    // Horizontal small roads
+    for (let x = -280; x <= 280; x += this.blockSize) {
+      if (Math.abs(x) > 200) continue;
+      
+      const streetGeom = new THREE.BoxGeometry(streetWidth, 0.25, roadLength);
+      const streetMesh = new THREE.Mesh(streetGeom, streetMat);
+      streetMesh.position.set(x, 0.125, 0);
+      streetMesh.receiveShadow = true;
+      this.mesh.add(streetMesh);
+      
+      const centerLineGeom = new THREE.BoxGeometry(0.15, 0.16, roadLength);
+      const centerLine = new THREE.Mesh(centerLineGeom, lineMat);
+      centerLine.position.set(x, 0.2, 0);
+      this.mesh.add(centerLine);
+      
+      this.roads.push({
+        type: 'small',
+        centerLine: { x, z: 0 },
+        direction: 'z',
+        length: roadLength,
+        width: streetWidth,
+        lanes: 1
+      });
+    }
+    
+    // Vertical small roads
+    for (let z = -200; z <= 200; z += this.blockSize) {
+      if (Math.abs(z) > 200) continue;
+      
+      const streetGeom = new THREE.BoxGeometry(800, 0.25, streetWidth);
+      const streetMesh = new THREE.Mesh(streetGeom, streetMat);
+      streetMesh.position.set(0, 0.125, z);
+      streetMesh.receiveShadow = true;
+      this.mesh.add(streetMesh);
+      
+      const centerLineGeom = new THREE.BoxGeometry(800, 0.16, 0.15);
+      const centerLine = new THREE.Mesh(centerLineGeom, lineMat);
+      centerLine.position.set(0, 0.2, z);
+      this.mesh.add(centerLine);
+      
+      this.roads.push({
+        type: 'small',
+        centerLine: { x: 0, z },
+        direction: 'x',
+        length: 800,
+        width: streetWidth,
+        lanes: 1
+      });
+    }
+  }
+  
+  createCurvedRoads() {
+    // Create curved/arc roads using multiple segments
+    const radius = 150;
+    const segmentLength = 50;
+    const mat = new THREE.MeshStandardMaterial({ color: 0x8B5CF6, roughness: 0.9, metalness: 0.02, flatShading: true });
+    const lineMat = new THREE.MeshStandardMaterial({ color: 0xFBBF24, roughness: 0.3, metalness: 0.7, emissive: 0xF59E0B, emissiveIntensity: 0.3, flatShading: true });
+    
+    // Quarter circle curves in each corner
+    const curves = [
+      { x: -300, z: -300, dir: 'positive' },  // bottom-left
+      { x: 300, z: -300, dir: 'negative' },  // bottom-right
+      { x: -300, z: 300, dir: 'negative' },  // top-left
+      { x: 300, z: 300, dir: 'positive' }   // top-right
+    ];
+    
+    for (const curve of curves) {
+      const centerX = curve.x;
+      const centerZ = curve.z;
+      const numSegments = Math.floor((Math.PI / 2) * radius / segmentLength);
+      
+      const points = [];
+      for (let i = 0; i <= numSegments; i++) {
+        const angle = (Math.PI / 2) * (i / numSegments);
+        const x = centerX + radius * Math.sin(angle);
+        const z = centerZ + radius * Math.cos(angle);
+        points.push(new THREE.Vector3(x, 0, z));
+      }
+      
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const roadMesh = new THREE.Mesh(geometry, mat);
+      roadMesh.receiveShadow = true;
+      this.mesh.add(roadMesh);
+      
+      // Add center line
+      const lineGeometry = new THREE.BufferGeometry();
+      const linePoints = [];
+      for (let i = 0; i < numSegments; i++) {
+        const angle1 = (Math.PI / 2) * (i / numSegments);
+        const angle2 = (Math.PI / 2) * ((i + 1) / numSegments);
+        const x1 = centerX + radius * Math.sin(angle1);
+        const z1 = centerZ + radius * Math.cos(angle1);
+        const x2 = centerX + radius * Math.sin(angle2);
+        const z2 = centerZ + radius * Math.cos(angle2);
+        linePoints.push(new THREE.Vector3(x1, 0.2, z1));
+        linePoints.push(new THREE.Vector3(x2, 0.2, z2));
+      }
+      lineGeometry.setFromPoints(linePoints);
+      const centerLine = new THREE.Line(lineGeometry, lineMat);
+      this.mesh.add(centerLine);
+      
+      this.roads.push({
+        type: 'curved',
+        centerLine: { x: curve.x, z: curve.z },
+        direction: 'curved',
+        length: radius * Math.PI / 2,
+        width: 20,
+        lanes: 1
+      });
+    }
+  }
+  
+  createDiversions() {
+    // Create T-junctions and intersections
+    const junctionMat = new THREE.MeshStandardMaterial({ color: 0xEF4444, roughness: 0.9, metalness: 0.02, flatShading: true });
+    const lineMat = new THREE.MeshStandardMaterial({ color: 0xFBBF24, roughness: 0.3, metalness: 0.7, emissive: 0xF59E0B, emissiveIntensity: 0.3, flatShading: true });
+    
+    // Create cross junctions at key intersections
+    const junctionPositions = [
+      { x: 0, z: 0 },
+      { x: 0, z: -200 },
+      { x: 0, z: 200 },
+      { x: -200, z: 0 },
+      { x: 200, z: 0 }
+    ];
+    
+    for (const pos of junctionPositions) {
+      // Main horizontal road segment
+      const horizGeom = new THREE.BoxGeometry(400, 0.3, 50);
+      const horizMesh = new THREE.Mesh(horizGeom, junctionMat);
+      horizMesh.position.set(pos.x, 0.15, pos.z);
+      horizMesh.receiveShadow = true;
+      this.mesh.add(horizMesh);
+      
+      // Main vertical road segment
+      const vertGeom = new THREE.BoxGeometry(50, 0.3, 400);
+      const vertMesh = new THREE.Mesh(vertGeom, junctionMat);
+      vertMesh.position.set(pos.x, 0.15, pos.z);
+      vertMesh.receiveShadow = true;
+      this.mesh.add(vertMesh);
+      
+      // Center line crossing
+      const crossGeom = new THREE.BoxGeometry(0.2, 0.16, 400);
+      const crossLine = new THREE.Mesh(crossGeom, lineMat);
+      crossLine.position.set(pos.x, 0.2, pos.z);
+      this.mesh.add(crossLine);
+      
+      const crossGeom2 = new THREE.BoxGeometry(400, 0.16, 0.2);
+      const crossLine2 = new THREE.Mesh(crossGeom2, lineMat);
+      crossLine2.position.set(pos.x, 0.2, pos.z);
+      this.mesh.add(crossLine2);
+      
+      this.roads.push({
+        type: 'diversion',
+        centerLine: { x: pos.x, z: pos.z },
+        direction: 'intersection',
+        length: 100,
+        width: 50,
+        lanes: 1
+      });
+    }
   }
   
   createCrossStreets() {
@@ -212,26 +389,57 @@ export class RoadNetwork {
     
     for (let i = 0; i < this.roads.length; i++) {
       const road = this.roads[i];
+      
+      // Skip main roads for building placement
       if (road.type === 'main') continue;
       
-      const blockCount = Math.floor(road.length / this.blockSize);
-      const start = -road.length / 2 + this.blockSize / 2;
+      // Skip diversions - no buildings at intersections
+      if (road.type === 'diversion') continue;
+      
+      // Different block counts based on road type
+      let blockCount, blockSize;
+      
+      if (road.type === 'small') {
+        blockCount = Math.floor(road.length / (this.blockSize * 0.5));
+        blockSize = this.blockSize * 0.4;
+      } else if (road.type === 'curved') {
+        blockCount = Math.floor(road.length / (this.blockSize * 0.7));
+        blockSize = this.blockSize * 0.5;
+      } else {
+        // default 'cross' and other roads
+        blockCount = Math.floor(road.length / this.blockSize);
+        blockSize = this.blockSize;
+      }
+      
+      const start = -road.length / 2 + blockSize / 2;
       
       for (let b = 0; b < blockCount; b++) {
-        const offset = start + b * this.blockSize;
-        const sideOffset = this.blockSize * 0.6;
+        const offset = start + b * blockSize * 0.8;
+        const sideOffset = blockSize * 0.5;
         
         for (let s = -1; s <= 1; s += 2) {
-          if (Math.random() < 0.7) {
+          if (Math.random() < 0.5) {
             const type = buildingTypes[Math.floor(Math.random() * buildingTypes.length)];
             let x, z;
             
             if (road.direction === 'x') {
               x = road.centerLine.x + offset;
               z = road.centerLine.z + s * sideOffset;
-            } else {
+            } else if (road.direction === 'z') {
               x = road.centerLine.x + s * sideOffset;
               z = road.centerLine.z + offset;
+            } else if (road.direction === 'curved') {
+              // Position buildings along the curve
+              const progress = (offset / road.length + 0.5);
+              const angle = (Math.PI / 2) * progress;
+              const cx = road.centerLine.x;
+              const cz = road.centerLine.z;
+              const rx = road.width / 2;
+              const rz = road.width / 2;
+              x = cx + rx * Math.cos(angle);
+              z = cz + rz * Math.sin(angle);
+            } else {
+              continue;
             }
             
             if (x < this.cityBounds.min.x + 50 || x > this.cityBounds.max.x - 50 ||
