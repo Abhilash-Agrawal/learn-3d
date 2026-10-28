@@ -25,9 +25,9 @@ export class Ground {
       const noise = this.noise2D(x * 0.01, z * 0.01) * 0.5;
       const variation = (Math.random() - 0.5) * 0.3;
       
-      const baseColor = new THREE.Color(0x2D5A2D);
-      const lightColor = new THREE.Color(0x3D7A3D);
-      const color = baseColor.clone().lerp(lightColor, noise + variation + 0.5);
+      const baseColor = new THREE.Color(0x477a38);
+      const lightColor = new THREE.Color(0x65984a);
+      const color = baseColor.clone().lerp(lightColor, THREE.MathUtils.clamp(noise + variation + 0.25, 0, 1));
       
       colors[i * 3] = color.r;
       colors[i * 3 + 1] = color.g;

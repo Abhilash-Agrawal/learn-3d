@@ -7,6 +7,7 @@ import { City } from './city/City.js';
 // import { UIManager } from './ui/UIManager.js';
 // import { WeatherSystem } from './effects/WeatherSystem.js';
 import { DayNightCycle } from './effects/DayNightCycle.js';
+import { Highway } from './city/terrain/Highway.js';
 import { SelectionManager } from './core/SelectionManager.js';
 import { CameraController } from './core/CameraController.js';
 // WebGL renderer will be created later
@@ -53,9 +54,10 @@ class SirenApp {
       this.sceneManager = new SceneManager(this.canvas);
       this.lighting = new Lighting(this.sceneManager.scene);
 this.city = new City(this.sceneManager.scene, 0);  // No auto-generated buildings
+      this.city.createGround();
       this.highway = new Highway(this.city.materials);
       this.highway.generate();
-      this.scene.add(this.highway.mesh);
+      this.sceneManager.scene.add(this.highway.mesh);
       
       // this.incidentManager = new IncidentManager(this.sceneManager.scene, this.city);
       // this.unitManager = new UnitManager(this.sceneManager.scene, this.city);

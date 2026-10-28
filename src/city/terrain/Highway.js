@@ -22,10 +22,9 @@ export class Highway {
     const totalWidth = this.totalWidth;
     
     const asphaltMat = new THREE.MeshStandardMaterial({
-      color: 0x1a1a2e,
-      roughness: 0.9,
-      metalness: 0.05,
-      flatShading: true
+      color: 0x34383b,
+      roughness: 0.96,
+      metalness: 0
     });
     
     const roadGeom = new THREE.BoxGeometry(totalWidth, 0.3, roadLength);
@@ -34,7 +33,7 @@ export class Highway {
     roadMesh.receiveShadow = true;
     this.mesh.add(roadMesh);
     
-    const shoulderMat = new THREE.MeshStandardMaterial({ color: 0x2d2d3a, roughness: 0.95, flatShading: true });
+    const shoulderMat = new THREE.MeshStandardMaterial({ color: 0x62676a, roughness: 0.95, metalness: 0 });
     const shoulderGeom = new THREE.BoxGeometry(shoulderWidth, 0.2, roadLength);
     
     const leftShoulder = new THREE.Mesh(shoulderGeom, shoulderMat);
@@ -46,7 +45,7 @@ export class Highway {
     this.mesh.add(rightShoulder);
     
     const medianGeom = new THREE.BoxGeometry(medianWidth, 0.4, roadLength);
-    const medianMat = new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.9, flatShading: true });
+    const medianMat = new THREE.MeshStandardMaterial({ color: 0x777b78, roughness: 0.9, metalness: 0 });
     const median = new THREE.Mesh(medianGeom, medianMat);
     median.position.set(0, 0.2, 0);
     median.receiveShadow = true;
@@ -69,10 +68,20 @@ export class Highway {
       this.mesh.add(rightBarrier);
     }
     
-    const lineMat = this.materials.roadLine;
     const dashedLineLength = 6;
     const dashedLineGap = 9;
     const lineHeight = 0.16;
+    const laneLineMat = new THREE.MeshStandardMaterial({
+      color: 0xf4f3ed,
+      roughness: 0.8,
+      metalness: 0
+    });
+    const medianLineMat = new THREE.MeshStandardMaterial({
+      color: 0xe7bd43,
+      roughness: 0.8,
+      metalness: 0
+    });
+    const markingY = 0.3 + lineHeight / 2 + 0.005;
     
     for (let dir = -1; dir <= 1; dir += 2) {
       const medianEdge = dir * medianWidth / 2;
@@ -84,24 +93,24 @@ export class Highway {
           const lineX = medianEdge + dir * (lane + 1) * laneWidth;
           for (let z = -roadLength/2; z < roadLength/2; z += dashedLineLength + dashedLineGap) {
             const lineGeom = new THREE.BoxGeometry(0.15, lineHeight, dashedLineLength);
-            const lineMesh = new THREE.Mesh(lineGeom, lineMat);
-            lineMesh.position.set(lineX, lineHeight/2, z + dashedLineLength/2);
+            const lineMesh = new THREE.Mesh(lineGeom, laneLineMat);
+            lineMesh.position.set(lineX, markingY, z + dashedLineLength/2);
             this.mesh.add(lineMesh);
           }
         }
         
         const edgeLineX = medianEdge + dir * lanesPerDirection * laneWidth;
         const edgeGeom = new THREE.BoxGeometry(0.2, lineHeight, roadLength);
-        const edgeMesh = new THREE.Mesh(edgeGeom, lineMat);
-        edgeMesh.position.set(edgeLineX, lineHeight/2, 0);
+        const edgeMesh = new THREE.Mesh(edgeGeom, laneLineMat);
+        edgeMesh.position.set(edgeLineX, markingY, 0);
         this.mesh.add(edgeMesh);
       }
+
+      const medianLineGeom = new THREE.BoxGeometry(0.15, lineHeight, roadLength);
+      const medianLine = new THREE.Mesh(medianLineGeom, medianLineMat);
+      medianLine.position.set(dir * (medianWidth / 2 + 0.45), markingY, 0);
+      this.mesh.add(medianLine);
     }
-    
-    const centerLineGeom = new THREE.BoxGeometry(0.3, lineHeight, roadLength);
-    const centerLineMesh = new THREE.Mesh(centerLineGeom, lineMat);
-    centerLineMesh.position.set(0, lineHeight/2, 0);
-    this.mesh.add(centerLineMesh);
     
     this.addSigns();
     this.addLightPoles();

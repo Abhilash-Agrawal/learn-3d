@@ -13,8 +13,8 @@ export class CameraController {
     
     this.minDistance = 10;
     this.maxDistance = 1000;
-    this.minPolar = 0;
-    this.maxPolar = Math.PI;
+    this.minPolar = 0.05;
+    this.maxPolar = Math.PI - 0.05;
     
     this.isMouseDown = false;
     this.isRightMouseDown = false;
@@ -28,37 +28,41 @@ export class CameraController {
   }
   
   bindEvents() {
-    this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
-    this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
-    this.canvas.addEventListener('mouseup', (e) => this.onMouseUp(e));
-    window.addEventListener('mouseup', (e) => this.onMouseUp(e));
+    this.canvas.style.touchAction = 'none';
+    this.canvas.addEventListener('pointerdown', (e) => this.onPointerDown(e));
+    this.canvas.addEventListener('pointermove', (e) => this.onPointerMove(e));
+    this.canvas.addEventListener('pointerup', (e) => this.onPointerUp(e));
+    this.canvas.addEventListener('pointercancel', (e) => this.onPointerUp(e));
+    this.canvas.addEventListener('lostpointercapture', () => this.onPointerUp());
     this.canvas.addEventListener('wheel', (e) => this.onWheel(e), { passive: false });
     this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
   }
   
-  onMouseDown(e) {
-    if (e.button === 0) this.isMouseDown = true;
-    if (e.button === 2) this.isRightMouseDown = true;
+  onPointerDown(e) {
+    if (e.button !== 0 && e.button !== 2) return;
+    this.isMouseDown = true;
+    this.isRightMouseDown = e.button === 2;
+    this.canvas.setPointerCapture(e.pointerId);
     this.lastMouse.set(e.clientX, e.clientY);
   }
   
-  onMouseMove(e) {
+  onPointerMove(e) {
+    if (!this.isMouseDown && !this.isRightMouseDown) return;
     const dx = e.clientX - this.lastMouse.x;
     const dy = e.clientY - this.lastMouse.y;
     
-    if (this.isRightMouseDown) {
-      this.azimuth -= dx * 0.005;
-      this.polar = THREE.MathUtils.clamp(this.polar - dy * 0.005, this.minPolar, this.maxPolar);
-    } else if (this.isMouseDown) {
-      this.pan(-dx * 0.5, -dy * 0.5);
-    }
+    this.azimuth -= dx * 0.01;
+    this.polar = THREE.MathUtils.clamp(this.polar - dy * 0.01, this.minPolar, this.maxPolar);
     
     this.lastMouse.set(e.clientX, e.clientY);
   }
   
-  onMouseUp(e) {
+  onPointerUp(e) {
     this.isMouseDown = false;
     this.isRightMouseDown = false;
+    if (e?.pointerId !== undefined && this.canvas.hasPointerCapture(e.pointerId)) {
+      this.canvas.releasePointerCapture(e.pointerId);
+    }
   }
   
   onWheel(e) {
