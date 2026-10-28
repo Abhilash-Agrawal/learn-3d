@@ -3,7 +3,7 @@ import {
 	Object3D,
 	Vector2,
 	Vector3
-} from 'https://cdn.jsdelivr.net/npm/three@0.165/build/three.module.js';
+} from 'three';
 
 class CSS2DObject extends Object3D {
 

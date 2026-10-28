@@ -1,4 +1,4 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.165/build/three.module.js';
+import * as THREE from 'three';
 import { FireTruck } from './FireTruck.js';
 import { PoliceCar } from './PoliceCar.js';
 import { Ambulance } from './Ambulance.js';
