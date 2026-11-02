@@ -1,0 +1,147 @@
+{
+  "title": "Generative AI Developer Roadmap",
+  "description": "Working with LLMs, prompt engineering, and AI applications",
+  "categories": [
+    {
+      "name": "Foundation Models",
+      "topics": [
+        {
+          "name": "LLM Architectures",
+          "subtopics": [
+            "Transformer models",
+            "Attention mechanisms",
+            "Parameter counts",
+            "Pre-training objectives",
+            "Model sizes"
+          ]
+        },
+        {
+          "name": "Prompt Engineering",
+          "subtopics": [
+            "Zero-shot prompting",
+            "Few-shot prompting",
+            "Chain-of-thought prompting",
+            "Prompt injection prevention",
+            "Prompt optimization"
+          ]
+        },
+        {
+          "name": "Model Families",
+          "subtopics": [
+            "GPT-4 series",
+            "Claude models",
+            "Llama 2/3",
+            "Gemini models",
+            "Open-source models"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Application Development",
+      "topics": [
+        {
+          "name": "Text Processing",
+          "subtopics": [
+            "Summarization techniques",
+            "Text classification",
+            "Sentiment analysis",
+            "Named entity recognition",
+            "Language translation"
+          ]
+        },
+        {
+          "name": "Code Generation",
+          "subtopics": [
+            "Code completion tools",
+            "Bug detection",
+            "Refactoring assistance",
+            "Multi-language support",
+            "Integration with IDEs"
+          ]
+        },
+        {
+          "name": " multimodal Models",
+          "subtopics": [
+            "Text-to-image generation",
+            "Image-to-text capabilities",
+            "Audio processing",
+            "Video understanding",
+            "Unified multimodal prompts"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Application Building",
+      "topics": [
+        {
+          "name": "API Development",
+          "subtopics": [
+            "REST API design",
+            "GraphQL integration",
+            "Streaming responses",
+            "Rate limiting",
+            "Authentication flows"
+          ]
+        },
+        {
+          "name": "Agent Systems",
+          "subtopics": [
+            "Tool use capabilities",
+            "Function calling",
+            "Reasoning loops",
+            "Memory management",
+            "Multi-agent collaboration"
+          ]
+        },
+        {
+          "name": "User Interfaces",
+          "subtopics": [
+            "Chat interfaces",
+            "Voice interfaces",
+            "Browser extensions",
+            "Desktop applications",
+            "Embedding AI in products"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Responsible AI",
+      "topics": [
+        {
+          "name": "Bias and Fairness",
+          "subtopics": [
+            "Detection methods",
+            "Mitigation strategies",
+            "Fairness metrics",
+            "Continuous monitoring"
+          ]
+        },
+        {
+          "name": "Privacy",
+          "subtopics": [
+            "Data anonymization",
+            "Differential privacy",
+            "User consent",
+            "API key management",
+            "Compliance (GDPR, CCPA)"
+          ]
+        },
+        {
+          "name": "Safety",
+          "subtopics": [
+            "Hallucination reduction",
+            "Output filtering",
+            "Human oversight",
+            "Abuse prevention",
+            "Ethical guidelines"
+          ]
+        }
+      ]
+    }
+  ],
+  "completionTime": "6-12 months",
+  "updated": "2026"
+}

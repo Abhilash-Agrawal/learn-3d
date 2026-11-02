@@ -1,0 +1,1178 @@
+{
+  "frontend": {
+    "title": "Frontend Developer Roadmap",
+    "description": "Step by step guide to becoming a modern frontend developer in 2026",
+    "categories": [
+      {
+        "name": "Core Languages",
+        "topics": [
+          {
+            "name": "HTML5",
+            "subtopics": [
+              "Semantic markup and Document Object Model",
+              "Accessibility (a11y) best practices",
+              "SEO fundamentals for HTML structure",
+              "Form creation and validation"
+            ]
+          },
+          {
+            "name": "CSS3",
+            "subtopics": [
+              "Flexbox layout model",
+              "CSS Grid implementation",
+              "Responsive design with media queries",
+              "Animations and transitions",
+              "CSS variables and theming"
+            ]
+          },
+          {
+            "name": "JavaScript ES6+",
+            "subtopics": [
+              "Variables (let, const, var)",
+              "Arrow functions",
+              "Template literals",
+              "Destructuring assignment",
+              "Spread and rest operators",
+              "Modules (import/export)"
+            ]
+          },
+          {
+            "name": "TypeScript",
+            "subtopics": [
+              "Type system fundamentals",
+              "Interfaces and type guards",
+              "Generics",
+              "Utility types",
+              "Namespaces and modules"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Frontend Fundamentals",
+        "topics": [
+          {
+            "name": "Responsive Design",
+            "subtopics": [
+              "Mobile-first approach",
+              "Breakpoint strategy",
+              "Fluid typography",
+              "Viewport meta tag",
+              "Testing responsiveness"
+            ]
+          },
+          {
+            "name": "CSS Preprocessors",
+            "subtopics": [
+              "Sass/Scss variables",
+              "Mixins and functions",
+              "Nested rules",
+              "Partials and imports",
+              "Map and list functions"
+            ]
+          },
+          {
+            "name": "JavaScript Basics",
+            "subtopics": [
+              "DOM selection and manipulation",
+              "Event listeners and handlers",
+              "Async/await patterns",
+              "Promise chaining",
+              "Fetch API and error handling"
+            ]
+          },
+          {
+            "name": "HTML Forms",
+            "subtopics": [
+              "Input types and attributes",
+              "Form validation (HTML5 + JS)",
+              "Accessible form labeling",
+              "Submit and reset handling",
+              "LocalStorage persistence"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Modern Frameworks",
+        "topics": [
+          {
+            "name": "React",
+            "subtopics": [
+              "Components and JSX",
+              "Component lifecycle",
+              "Hooks (useState, useEffect, useContext)",
+              "Context API",
+              "Router (React Router)",
+              "State management (Redux, MobX)",
+              "Performance optimization",
+              "Testing React components"
+            ]
+          },
+          {
+            "name": "Vue 3",
+            "subtopics": [
+              "Composition API",
+              "Options API",
+              "Vue Router",
+              "Pinia state management",
+              "Vue Testing Library",
+              "Transitions and animations"
+            ]
+          },
+          {
+            "name": "Angular",
+            "subtopics": [
+              "Modules and Components",
+              "Services and Dependency Injection",
+              "RxJS and Observables",
+              "Router Module",
+              "Reactive Forms",
+              "Testing Angular applications"
+            ]
+          },
+          {
+            "name": "Svelte",
+            "subtopics": [
+              "Svelte syntax fundamentals",
+              "Reactivity system",
+              "Components and props",
+              "Stores",
+              "Transitions and animations",
+              "SvelteKit framework"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "State Management",
+        "topics": [
+          {
+            "name": "React State",
+            "subtopics": [
+              "useState hook",
+              "useReducer hook",
+              "Custom hooks",
+              "State lifting",
+              "Remote state with SWR or TanStack Query"
+            ]
+          },
+          {
+            "name": "Global State",
+            "subtopics": [
+              "Redux toolkit",
+              "MobX",
+              "Zustand",
+              "Jotai",
+              "Recoil",
+              "Context API patterns"
+            ]
+          },
+          {
+            "name": "Vue State",
+            "subtopics": [
+              "Vuex store",
+              "Pinia store",
+              "Component local state",
+              "Event bus patterns",
+              "Provide/inject patterns"
+            ]
+          },
+          {
+            "name": "Angular State",
+            "subtopics": [
+              "NgRx store",
+              "Services with Signal",
+              "Component state",
+              "Reactive forms model"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Routing & Navigation",
+        "topics": [
+          {
+            "name": "React Router",
+            "subtopics": [
+              "Route configuration",
+              "Nested routes",
+              "Programmatic navigation",
+              "Route guards",
+              "Lazy loading",
+              "Route parameters",
+              "Navigation refs"
+            ]
+          },
+          {
+            "name": "Vue Router",
+            "subtopics": [
+              "Route definitions",
+              "Named routes",
+              "Programmatic navigation",
+              "Route guards",
+              "Dynamic route matching",
+              "History vs Hash mode"
+            ]
+          },
+          {
+            "name": "Angular Routing",
+            "subtopics": [
+              "Router configuration",
+              "Child routes",
+              "Route params and query params",
+              "Route guards (canActivate, canLoad)",
+              "Navigation extras",
+              "Router state tree"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CSS & Styling",
+        "topics": [
+          {
+            "name": "Responsive Design",
+            "subtopics": [
+              "Mobile-first approach",
+              "Breakpoint strategy",
+              "Fluid typography with clamp()",
+              "Viewport units (vh, vw)",
+              "Responsive images",
+              "Testing responsive designs"
+            ]
+          },
+          {
+            "name": "CSS Grid",
+            "subtopics": [
+              "Grid container properties",
+              "Grid tracks and sizing",
+              "Implicit grid sizing",
+              "Named grid lines",
+              "Grid areas",
+              "Auto-placement",
+              "Nested grids"
+            ]
+          },
+          {
+            "name": "Flexbox",
+            "subtopics": [
+              "Main axis (justify-content)",
+              "Cross axis (align-items)",
+              "Flex-wrap",
+              "Order property",
+              "Flexbox versus Grid",
+              "Old browser support"
+            ]
+          },
+          {
+            "name": "CSS Animations",
+            "subtopics": [
+              "Keyframes animations",
+              "Transition properties",
+              "Transform properties (scale, rotate, translate)",
+              "Animation timing functions",
+              "Animation iteration and direction",
+              "Prefers-reduced-motion support"
+            ]
+          },
+          {
+            "name": "Tailwind CSS",
+            "subtopics": [
+              "Utility-first classes",
+              "Responsive breakpoints",
+              "Customizing the config",
+              "JIT compilation",
+              "Plugin system",
+              "Dark mode support"
+            ]
+          },
+          {
+            "name": "CSS Methodologies",
+            "subtopics": [
+              "BEM (Block Element Modifier)",
+              "SMACSS (Scalable and Modular Architecture for CSS)",
+              "ITCSS (Inverted Triangle CSS)",
+              "CSS naming conventions",
+              "Modular CSS architecture",
+              "Maintainability patterns"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Web Performance",
+        "topics": [
+          {
+            "name": "Core Web Vitals",
+            "subtopics": [
+              "Largest Contentful Paint (LCP)",
+              "First Input Delay (FID)",
+              "Cumulative Layout Shift (CLS)",
+              "Field data vs. Lab data",
+              "Improvement strategies"
+            ]
+          },
+          {
+            "name": "Image Optimization",
+            "subtopics": [
+              "Modern formats (WebP, AVIF)",
+              "Responsive images (srcset, sizes)",
+              "Lazy loading",
+              "Compression tools",
+              "CDN delivery"
+            ]
+          },
+          {
+            "name": "Code Splitting",
+            "subtopics": [
+              "Dynamic imports",
+              "Route-based code splitting",
+              "Bundle analysis with Webpack Bundle Analyzer",
+              "Tree shaking",
+              "Code splitting strategies"
+            ]
+          },
+          {
+            "name": "Bundle Optimization",
+            "subtopics": [
+              "Minification (Terser)",
+              "Scope hoisting",
+              "Cache headers configuration",
+              "Service Worker caching",
+              "CDN configuration"
+            ]
+          },
+          {
+            "name": "Performance Monitoring",
+            "subtopics": [
+              "Web Vitals JavaScript library",
+              "Lighthouse audits",
+              "Chrome DevTools Performance panel",
+              "Real User Monitoring (RUM)",
+              "Error tracking and reporting"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Accessibility & SEO",
+        "topics": [
+          {
+            "name": "WCAG 2.1",
+            "subtopics": [
+              "Color contrast ratios",
+              "Keyboard navigation",
+              "Screen reader support",
+              "Focus management",
+              "Skip links",
+              "ARIA roles and labels"
+            ]
+          },
+          {
+            "name": "Semantic HTML",
+            "subtopics": [
+              "Heading hierarchy (h1-h6)",
+              "Landmark regions",
+              "Form labeling",
+              "List semantics",
+              "Table markup",
+              "Skip navigation"
+            ]
+          },
+          {
+            "name": "Meta Tags",
+            "subtopics": [
+              "Title tag optimization",
+              "Description meta tag",
+              "Open Graph tags",
+              "Twitter Cards",
+              "Robots.txt",
+              "Sitemap.xml"
+            ]
+          },
+          {
+            "name": "Performance & SEO",
+            "subtopics": [
+              "Page speed impact on SEO",
+              "Core Web Vitals as ranking factor",
+              "Mobile-first indexing",
+              "Duplicate content handling",
+              "Schema.org structured data"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Development Tools",
+        "topics": [
+          {
+            "name": "Git & Version Control",
+            "subtopics": [
+              "Branching strategies",
+              "Merge conflicts",
+              "Pull Request workflow",
+              "Commit message conventions",
+              "Git flow vs Trunk Based Development",
+              "Tagging releases"
+            ]
+          },
+          {
+            "name": "Package Management",
+            "subtopics": [
+              "npm vs yarn vs pnpm",
+              "Package scripts",
+              "Dependency management",
+              "Lock files (package-lock.json, yarn.lock)",
+              "Private registries"
+            ]
+          },
+          {
+            "name": "Build Tools",
+            "subtopics": [
+              "Vite development server",
+              "Create React App",
+              "Webpack configuration",
+              "Vite plugins",
+              "Module bundling",
+              "Hot Module Replacement (HMR)"
+            ]
+          },
+          {
+            "name": "Linting & Formatting",
+            "subtopics": [
+              "ESLint rules and configs",
+              "Prettier code formatting",
+              "Stylelint for CSS",
+              "CI/CD integration",
+              "Pre-commit hooks (husky)",
+              "Code quality dashboards"
+            ]
+          },
+          {
+            "name": "Browser DevTools",
+            "subtopics": [
+              "Elements panel inspection",
+              "Console debugging techniques",
+              "Network panel analysis",
+              "Performance profiling",
+              "Accessibility tab",
+              "Application tab (Storage, Cache)"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Testing",
+        "topics": [
+          {
+            "name": "Unit Testing",
+            "subtopics": [
+              "Jest setup and configuration",
+              "React Testing Library queries",
+              "Mock functions and modules",
+              "Test coverage thresholds",
+              "Snapshot testing",
+              "Async test handling"
+            ]
+          },
+          {
+            "name": "Component Testing",
+            "subtopics": [
+              "Vue Test Utilities queries",
+              "Angular TestBed",
+              "Interaction testing",
+              "Fixture setup",
+              "Before/after hooks",
+              "Test organization"
+            ]
+          },
+          {
+            "name": "End-to-End Testing",
+            "subtopics": [
+              "Cypress test writing",
+              "Playwright test architecture",
+              "Test runner configuration",
+              "Fixtures and fixtures",
+              "Cross-browser testing",
+              "Visual regression testing"
+            ]
+          },
+          {
+            "name": "Test Organization",
+            "subtopics": [
+              "Test descriptions and names",
+              "Before/after hooks",
+              "Test data fixtures",
+              "Tagging and filtering tests",
+              "Continuous Integration setup",
+              "Report generation"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Projects & Portfolio",
+        "topics": [
+          {
+            "name": "Portfolio Site",
+            "subtopics": [
+              "Personal information section",
+              "Project showcase grid",
+              "Contact form integration",
+              "Resume download section",
+              "Smooth scroll navigation",
+              "Performance optimization"
+            ]
+          },
+          {
+            "name": "To-Do List App",
+            "subtopics": [
+              "State management practice",
+              "LocalStorage persistence",
+              "Filter and search functionality",
+              "Drag and drop sorting",
+              "Dark mode toggle",
+              "Responsive design"
+            ]
+          },
+          {
+            "name": "Weather App",
+            "subtopics": [
+              "API integration (OpenWeather)",
+              "Fetch API usage",
+              "Error handling",
+              "Card design patterns",
+              "Location services",
+              "Unit testing the app"
+            ]
+          },
+          {
+            "name": "Recipe App",
+            "subtopics": [
+              "LocalStorage persistence",
+              "Search and filter functionality",
+              "Recipe card design",
+              "Dietary filters",
+              "Unit testing forms",
+              "Dark mode support"
+            ]
+          },
+          {
+            "name": "E-commerce Demo",
+            "subtopics": [
+              "Product catalog design",
+              "Shopping cart functionality",
+              "Payment integration (Stripe/PayPal)",
+              "User authentication",
+              "Responsive product grid",
+              "Unit testing checkout"
+            ]
+          }
+        ]
+      }
+    ],
+    "completionTime": "6-12 months",
+    "updated": "2026"
+  },
+  "backend": {
+    "title": "Backend Developer Roadmap",
+    "description": "Server-side development with Node.js, Python, Go, and more",
+    "categories": [
+      {
+        "name": "Node.js",
+        "topics": [
+          {
+            "name": "Node.js Fundamentals",
+            "subtopics": [
+              "Event loop architecture",
+              "Non-blocking I/O",
+              "Callback patterns",
+              "Promise patterns",
+              "Async/await syntax"
+            ]
+          },
+          {
+            "name": "Express.js",
+            "subtopics": [
+              "Routing basics",
+              "Middleware chain",
+              "Request handling",
+              "Response formatting",
+              "Error handling middleware"
+            ]
+          },
+          {
+            "name": "API Design",
+            "subtopics": [
+              "RESTful API design",
+              "HTTP methods and status codes",
+              "Request validation",
+              "Response schemas",
+              "API versioning"
+            ]
+          },
+          {
+            "name": "Database Integration",
+            "subtopics": [
+              "SQL databases (PostgreSQL, MySQL)",
+              "NoSQL databases (MongoDB, Redis)",
+              "ORM tools (Sequelize, Prisma)",
+              "Connection pooling",
+              "Migration strategies"
+            ]
+          },
+          {
+            "name": "Authentication & Authorization",
+            "subtopics": [
+              "JWT implementation",
+              "OAuth 2.0 flow",
+              "Session management",
+              "Password hashing",
+              "Role-based access control"
+            ]
+          },
+          {
+            "name": "Security",
+            "subtopics": [
+              "Input validation",
+              "SQL injection prevention",
+              "XSS protection",
+              "Rate limiting",
+              "Security headers"
+            ]
+          },
+          {
+            "name": "Advanced Node.js",
+            "subtopics": [
+              "Clustering and worker threads",
+              "Stream processing",
+              "File system operations",
+              "Error handling best practices",
+              "Performance profiling"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Python Backend",
+        "topics": [
+          {
+            "name": "Python Fundamentals",
+            "subtopics": [
+              "Python syntax and semantics",
+              "Virtual environments (venv, conda)",
+              "Package management (pip)",
+              "Decorators",
+              "Generators and iterators"
+            ]
+          },
+          {
+            "name": "Flask Framework",
+            "subtopics": [
+              "Route definition",
+              "Template rendering (Jinja2)",
+              "Request handling",
+              "Form validation",
+              "Session management"
+            ]
+          },
+          {
+            "name": "Django Framework",
+            "subtopics": [
+              "ORM and Models",
+              "Admin interface",
+              "URL routing",
+              "Form processing",
+              "Authentication system"
+            ]
+          },
+          {
+            "name": "FastAPI",
+            "subtopics": [
+              "Async endpoints",
+              "Data validation with Pydantic",
+              "Auto-generated API docs",
+              "Dependency injection",
+              "Background tasks"
+            ]
+          },
+          {
+            "name": "Async Programming",
+            "subtopics": [
+              "Async and await",
+              "Coroutines",
+              "Event loop",
+              "Concurrent execution",
+              "Task queues"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Database Design",
+        "topics": [
+          {
+            "name": "Relational Databases",
+            "subtopics": [
+              "Normalization forms (1NF, 2NF, 3NF)",
+              "Primary and foreign keys",
+              "Joins and subqueries",
+              "Indexing strategies",
+              "Transactions and ACID properties"
+            ]
+          },
+          {
+            "name": "NoSQL Databases",
+            "subtopics": [
+              "Document stores (MongoDB)",
+              "Key-value stores (Redis)",
+              "Column-family stores",
+              "Graph databases",
+              "CAP theorem basics"
+            ]
+          },
+          {
+            "name": "Database Modeling",
+            "subtopics": [
+              "ER diagrams",
+              "Schema design patterns",
+              "Migration strategies",
+              "Data normalization",
+              "Performance optimization"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DevOps & Deployment",
+        "topics": [
+          {
+            "name": "Containerization",
+            "subtopics": [
+              "Docker fundamentals",
+              "Dockerfile best practices",
+              "Docker Compose",
+              "Image optimization",
+              "Registry usage"
+            ]
+          },
+          {
+            "name": "Cloud Platforms",
+            "subtopics": [
+              "AWS EC2, S3, RDS",
+              "Azure App Service",
+              "Google Cloud Run",
+              "Platform configuration",
+              "Multi-cloud strategies"
+            ]
+          },
+          {
+            "name": "CI/CD Pipelines",
+            "subtopics": [
+              "GitHub Actions",
+              "GitLab CI",
+              "Jenkins pipelines",
+              "Build automation",
+              "Deployment strategies",
+              "Canary releases"
+            ]
+          },
+          {
+            "name": "Monitoring & Logging",
+            "subtopics": [
+              "Application monitoring",
+              "Log aggregation",
+              "Error tracking (Sentry)",
+              "Performance metrics",
+              "Alerting strategies"
+            ]
+          }
+        ]
+      }
+    ],
+    "completionTime": "8-14 months",
+    "updated": "2026"
+  },
+  "gen-ai": {
+    "title": "Generative AI Developer Roadmap",
+    "description": "Working with LLMs, prompt engineering, and AI applications",
+    "categories": [
+      {
+        "name": "Foundation Models",
+        "topics": [
+          {
+            "name": "LLM Architectures",
+            "subtopics": [
+              "Transformer models",
+              "Attention mechanisms",
+              "Parameter counts",
+              "Pre-training objectives",
+              "Model sizes"
+            ]
+          },
+          {
+            "name": "Prompt Engineering",
+            "subtopics": [
+              "Zero-shot prompting",
+              "Few-shot prompting",
+              "Chain-of-thought prompting",
+              "Prompt injection prevention",
+              "Prompt optimization"
+            ]
+          },
+          {
+            "name": "Model Families",
+            "subtopics": [
+              "GPT-4 series",
+              "Claude models",
+              "Llama 2/3",
+              "Gemini models",
+              "Open-source models"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Application Development",
+        "topics": [
+          {
+            "name": "Text Processing",
+            "subtopics": [
+              "Summarization techniques",
+              "Text classification",
+              "Sentiment analysis",
+              "Named entity recognition",
+              "Language translation"
+            ]
+          },
+          {
+            "name": "Code Generation",
+            "subtopics": [
+              "Code completion tools",
+              "Bug detection",
+              "Refactoring assistance",
+              "Multi-language support",
+              "Integration with IDEs"
+            ]
+          },
+          {
+            "name": " multimodal Models",
+            "subtopics": [
+              "Text-to-image generation",
+              "Image-to-text capabilities",
+              "Audio processing",
+              "Video understanding",
+              "Unified multimodal prompts"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Application Building",
+        "topics": [
+          {
+            "name": "API Development",
+            "subtopics": [
+              "REST API design",
+              "GraphQL integration",
+              "Streaming responses",
+              "Rate limiting",
+              "Authentication flows"
+            ]
+          },
+          {
+            "name": "Agent Systems",
+            "subtopics": [
+              "Tool use capabilities",
+              "Function calling",
+              "Reasoning loops",
+              "Memory management",
+              "Multi-agent collaboration"
+            ]
+          },
+          {
+            "name": "User Interfaces",
+            "subtopics": [
+              "Chat interfaces",
+              "Voice interfaces",
+              "Browser extensions",
+              "Desktop applications",
+              "Embedding AI in products"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Responsible AI",
+        "topics": [
+          {
+            "name": "Bias and Fairness",
+            "subtopics": [
+              "Detection methods",
+              "Mitigation strategies",
+              "Fairness metrics",
+              "Continuous monitoring"
+            ]
+          },
+          {
+            "name": "Privacy",
+            "subtopics": [
+              "Data anonymization",
+              "Differential privacy",
+              "User consent",
+              "API key management",
+              "Compliance (GDPR, CCPA)"
+            ]
+          },
+          {
+            "name": "Safety",
+            "subtopics": [
+              "Hallucination reduction",
+              "Output filtering",
+              "Human oversight",
+              "Abuse prevention",
+              "Ethical guidelines"
+            ]
+          }
+        ]
+      }
+    ],
+    "completionTime": "6-12 months",
+    "updated": "2026"
+  },
+  "cloud": {
+    "title": "Cloud Developer Roadmap",
+    "description": "AWS, Azure, GCP infrastructure and services",
+    "categories": [
+      {
+        "name": "AWS",
+        "topics": [
+          {
+            "name": "Core Services",
+            "subtopics": [
+              "EC2 instances",
+              "S3 storage",
+              "RDS databases",
+              "VPC networking",
+              "IAM policies"
+            ]
+          },
+          {
+            "name": "Compute",
+            "subtopics": [
+              "Lambda functions",
+              "ECS/Fargate",
+              "EKS Kubernetes",
+              "Auto Scaling groups",
+              "Container image management"
+            ]
+          },
+          {
+            "name": "Networking",
+            "subtopics": [
+              "Route 53 DNS",
+              "CloudFront CDN",
+              "Security Groups",
+              " NACLs",
+              "VPC peering"
+            ]
+          },
+          {
+            "name": "DevOps",
+            "subtopics": [
+              "CodePipeline",
+              "CodeBuild",
+              "CodeDeploy",
+              "CloudFormation",
+              "Infrastructure as Code"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Azure",
+        "topics": [
+          {
+            "name": "Core Services",
+            "subtopics": [
+              "Virtual Machines",
+              "App Service",
+              "SQL Database",
+              "Cosmos DB",
+              "Networking basics"
+            ]
+          },
+          {
+            "name": "Compute",
+            "subtopics": [
+              "App Service Plans",
+              "Azure Container Instances",
+              "AKS (Kubernetes Service)",
+              "Azure Functions"
+            ]
+          },
+          {
+            "name": "Networking",
+            "subtopics": [
+              "Virtual Network",
+              "Application Gateway",
+              "DNS Management",
+              "Load Balancers",
+              "ExpressRoute"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "GCP",
+        "topics": [
+          {
+            "name": "Core Services",
+            "subtopics": [
+              "Compute Engine",
+              "Cloud Storage",
+              "Cloud SQL",
+              "VPC networking",
+              "IAM policies"
+            ]
+          },
+          {
+            "name": "Compute",
+            "subtopics": [
+              "Google Kubernetes Engine",
+              "Cloud Run",
+              "App Engine",
+              "Compute Engine policies"
+            ]
+          },
+          {
+            "name": "Data Analytics",
+            "subtopics": [
+              "BigQuery",
+              "Cloud Data Fusion",
+              "Dataflow",
+              "Pub/Sub messaging",
+              "Looker dashboards"
+            ]
+          }
+        ]
+      }
+    ],
+    "completionTime": "8-12 months",
+    "updated": "2026"
+  },
+  "system-design": {
+    "title": "System Design Roadmap",
+    "description": "Scalable architecture, microservices, and distributed systems",
+    "categories": [
+      {
+        "name": "Scalability",
+        "topics": [
+          {
+            "name": "Load Balancing",
+            "subtopics": [
+              "Hardware vs. software load balancers",
+              "L7 vs. L4 balancing",
+              "Consistent hashing",
+              "Session affinity",
+              "Health checks"
+            ]
+          },
+          {
+            "name": "Caching Strategies",
+            "subtopics": [
+              "CDN caching",
+              "Redis/Memcached",
+              "Cache invalidation patterns",
+              "Cache warming",
+              "Cache consistency"
+            ]
+          },
+          {
+            "name": "Horizontal Scaling",
+            "subtopics": [
+              "Stateless design",
+              "Auto scaling groups",
+              "Container orchestration",
+              "Load shedding",
+              "Circuit breakers"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Microservices",
+        "topics": [
+          {
+            "name": "Service Architecture",
+            "subtopics": [
+              "Service decomposition",
+              "Bounded contexts",
+              "API design guidelines",
+              "Contract testing",
+              "Service mesh (Istio/Linkerd)"
+            ]
+          },
+          {
+            "name": "Communication",
+            "subtopics": [
+              "Synchronous vs. asynchronous",
+              "REST vs. gRPC",
+              "Message queues (Kafka, RabbitMQ)",
+              "Event sourcing",
+              "Idempotency keys"
+            ]
+          },
+          {
+            "name": "Data Consistency",
+            "subtopics": [
+              "CAP theorem basics",
+              "Eventual consistency",
+              "Strong consistency models",
+              "Distributed transactions",
+              "Saga pattern"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Reliability",
+        "topics": [
+          {
+            "name": "Fault Tolerance",
+            "subtopics": [
+              "Redundancy design",
+              "Graceful degradation",
+              "Circuit breakers",
+              "Bulkheads",
+              "Disaster recovery"
+            ]
+          },
+          {
+            "name": "Observability",
+            "subtopics": [
+              "Logging strategies",
+              "Distributed tracing",
+              "Metrics and monitoring",
+              "Alerting strategies",
+              "Dashboard creation"
+            ]
+          },
+          {
+            "name": "Disaster Recovery",
+            "subtopics": [
+              "Backup strategies",
+              "Region failover",
+              "RPO and RTO definitions",
+              "Testing recovery procedures",
+              "Cloud provider features"
+            ]
+          }
+        ]
+      }
+    ],
+    "completionTime": "8-14 months",
+    "updated": "2026"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "title": "Cloud Developer Roadmap",
+  "description": "AWS, Azure, GCP infrastructure and services",
+  "categories": [
+    {
+      "name": "AWS",
+      "topics": [
+        {
+          "name": "Core Services",
+          "subtopics": [
+            "EC2 instances",
+            "S3 storage",
+            "RDS databases",
+            "VPC networking",
+            "IAM policies"
+          ]
+        },
+        {
+          "name": "Compute",
+          "subtopics": [
+            "Lambda functions",
+            "ECS/Fargate",
+            "EKS Kubernetes",
+            "Auto Scaling groups",
+            "Container image management"
+          ]
+        },
+        {
+          "name": "Networking",
+          "subtopics": [
+            "Route 53 DNS",
+            "CloudFront CDN",
+            "Security Groups",
+            " NACLs",
+            "VPC peering"
+          ]
+        },
+        {
+          "name": "DevOps",
+          "subtopics": [
+            "CodePipeline",
+            "CodeBuild",
+            "CodeDeploy",
+            "CloudFormation",
+            "Infrastructure as Code"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Azure",
+      "topics": [
+        {
+          "name": "Core Services",
+          "subtopics": [
+            "Virtual Machines",
+            "App Service",
+            "SQL Database",
+            "Cosmos DB",
+            "Networking basics"
+          ]
+        },
+        {
+          "name": "Compute",
+          "subtopics": [
+            "App Service Plans",
+            "Azure Container Instances",
+            "AKS (Kubernetes Service)",
+            "Azure Functions"
+          ]
+        },
+        {
+          "name": "Networking",
+          "subtopics": [
+            "Virtual Network",
+            "Application Gateway",
+            "DNS Management",
+            "Load Balancers",
+            "ExpressRoute"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GCP",
+      "topics": [
+        {
+          "name": "Core Services",
+          "subtopics": [
+            "Compute Engine",
+            "Cloud Storage",
+            "Cloud SQL",
+            "VPC networking",
+            "IAM policies"
+          ]
+        },
+        {
+          "name": "Compute",
+          "subtopics": [
+            "Google Kubernetes Engine",
+            "Cloud Run",
+            "App Engine",
+            "Compute Engine policies"
+          ]
+        },
+        {
+          "name": "Data Analytics",
+          "subtopics": [
+            "BigQuery",
+            "Cloud Data Fusion",
+            "Dataflow",
+            "Pub/Sub messaging",
+            "Looker dashboards"
+          ]
+        }
+      ]
+    }
+  ],
+  "completionTime": "8-12 months",
+  "updated": "2026"
+}

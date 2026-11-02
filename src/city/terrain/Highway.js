@@ -5,7 +5,7 @@ export class Highway {
     this.materials = materials;
     this.mesh = new THREE.Group();
     
-    this.roadLength = 900;
+    this.roadLength = 1200;
     this.laneWidth = 3.7;
     this.lanesPerDirection = 2;
     this.medianWidth = 4;
@@ -21,14 +21,8 @@ export class Highway {
     const shoulderWidth = this.shoulderWidth;
     const totalWidth = this.totalWidth;
     
-    const asphaltMat = new THREE.MeshStandardMaterial({
-      color: 0x34383b,
-      roughness: 0.96,
-      metalness: 0
-    });
-    
     const roadGeom = new THREE.BoxGeometry(totalWidth, 0.3, roadLength);
-    const roadMesh = new THREE.Mesh(roadGeom, asphaltMat);
+    const roadMesh = new THREE.Mesh(roadGeom, this.materials.road);
     roadMesh.position.set(0, 0.15, 0);
     roadMesh.receiveShadow = true;
     this.mesh.add(roadMesh);

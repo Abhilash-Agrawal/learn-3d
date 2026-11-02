@@ -9,7 +9,7 @@ export class Tower {
   }
   
   generate(x, z, height) {
-    this.height = height;
+    this.height = height !== undefined ? height : 40;
     this.baseSize = 20 + Math.random() * 10;
     this.mesh.position.set(x, 0, z);
     

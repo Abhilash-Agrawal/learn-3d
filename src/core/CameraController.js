@@ -18,6 +18,7 @@ export class CameraController {
     
     this.isMouseDown = false;
     this.isRightMouseDown = false;
+    this.enabled = true;
     this.lastMouse = new THREE.Vector2();
     
     this.followTarget = null;
@@ -39,6 +40,7 @@ export class CameraController {
   }
   
   onPointerDown(e) {
+    if (!this.enabled) return;
     if (e.button !== 0 && e.button !== 2) return;
     this.isMouseDown = true;
     this.isRightMouseDown = e.button === 2;
@@ -47,6 +49,7 @@ export class CameraController {
   }
   
   onPointerMove(e) {
+    if (!this.enabled) return;
     if (!this.isMouseDown && !this.isRightMouseDown) return;
     const dx = e.clientX - this.lastMouse.x;
     const dy = e.clientY - this.lastMouse.y;
@@ -63,6 +66,11 @@ export class CameraController {
     if (e?.pointerId !== undefined && this.canvas.hasPointerCapture(e.pointerId)) {
       this.canvas.releasePointerCapture(e.pointerId);
     }
+  }
+
+  setEnabled(enabled) {
+    this.enabled = enabled;
+    if (!enabled) this.onPointerUp();
   }
   
   onWheel(e) {

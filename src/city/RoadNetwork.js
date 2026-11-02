@@ -5,6 +5,7 @@ import { Park } from './buildings/Park.js';
 import { FireStation } from './buildings/FireStation.js';
 import { PoliceStation } from './buildings/PoliceStation.js';
 import { Hospital } from './buildings/Hospital.js';
+import { createRoadRibbonGeometry } from './terrain/RoadGeometry.js';
 
 export class RoadNetwork {
   constructor(scene, materials, cityBounds) {
@@ -139,53 +140,38 @@ generate() {
   }
   
   createCurvedRoads() {
-    // Create curved/arc roads using multiple segments
     const radius = 150;
-    const segmentLength = 50;
-    const mat = new THREE.MeshStandardMaterial({ color: 0x8B5CF6, roughness: 0.9, metalness: 0.02, flatShading: true });
-    const lineMat = new THREE.MeshStandardMaterial({ color: 0xFBBF24, roughness: 0.3, metalness: 0.7, emissive: 0xF59E0B, emissiveIntensity: 0.3, flatShading: true });
-    
-    // Quarter circle curves in each corner
     const curves = [
-      { x: -300, z: -300, dir: 'positive' },  // bottom-left
-      { x: 300, z: -300, dir: 'negative' },  // bottom-right
-      { x: -300, z: 300, dir: 'negative' },  // top-left
-      { x: 300, z: 300, dir: 'positive' }   // top-right
+      { x: -300, z: -300 },
+      { x: 300, z: -300 },
+      { x: -300, z: 300 },
+      { x: 300, z: 300 }
     ];
     
     for (const curve of curves) {
-      const centerX = curve.x;
-      const centerZ = curve.z;
-      const numSegments = Math.floor((Math.PI / 2) * radius / segmentLength);
-      
+      const xDirection = curve.x < 0 ? 1 : -1;
+      const zDirection = curve.z < 0 ? 1 : -1;
       const points = [];
-      for (let i = 0; i <= numSegments; i++) {
-        const angle = (Math.PI / 2) * (i / numSegments);
-        const x = centerX + radius * Math.sin(angle);
-        const z = centerZ + radius * Math.cos(angle);
-        points.push(new THREE.Vector3(x, 0, z));
+      for (let i = 0; i <= 16; i++) {
+        const angle = (Math.PI / 2) * (i / 16);
+        points.push(new THREE.Vector3(
+          curve.x + xDirection * radius * Math.sin(angle),
+          0,
+          curve.z + zDirection * radius * Math.cos(angle)
+        ));
       }
       
-      const geometry = new THREE.BufferGeometry().setFromPoints(points);
-      const roadMesh = new THREE.Mesh(geometry, mat);
+      const centerline = new THREE.CatmullRomCurve3(points, false, 'centripetal');
+      const roadGeometry = createRoadRibbonGeometry(centerline, 20, 32, 0.15);
+      const roadMesh = new THREE.Mesh(roadGeometry, this.materials.road);
       roadMesh.receiveShadow = true;
       this.mesh.add(roadMesh);
       
-      // Add center line
-      const lineGeometry = new THREE.BufferGeometry();
-      const linePoints = [];
-      for (let i = 0; i < numSegments; i++) {
-        const angle1 = (Math.PI / 2) * (i / numSegments);
-        const angle2 = (Math.PI / 2) * ((i + 1) / numSegments);
-        const x1 = centerX + radius * Math.sin(angle1);
-        const z1 = centerZ + radius * Math.cos(angle1);
-        const x2 = centerX + radius * Math.sin(angle2);
-        const z2 = centerZ + radius * Math.cos(angle2);
-        linePoints.push(new THREE.Vector3(x1, 0.2, z1));
-        linePoints.push(new THREE.Vector3(x2, 0.2, z2));
-      }
-      lineGeometry.setFromPoints(linePoints);
-      const centerLine = new THREE.Line(lineGeometry, lineMat);
+      const linePoints = centerline.getPoints(32);
+      linePoints.forEach(point => { point.y = 0.17; });
+      const lineGeometry = new THREE.BufferGeometry().setFromPoints(linePoints);
+      const lineMaterial = new THREE.LineBasicMaterial({ color: 0xe7bd43 });
+      const centerLine = new THREE.Line(lineGeometry, lineMaterial);
       this.mesh.add(centerLine);
       
       this.roads.push({

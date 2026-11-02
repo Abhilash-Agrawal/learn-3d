@@ -1,0 +1,113 @@
+{
+  "title": "System Design Roadmap",
+  "description": "Scalable architecture, microservices, and distributed systems",
+  "categories": [
+    {
+      "name": "Scalability",
+      "topics": [
+        {
+          "name": "Load Balancing",
+          "subtopics": [
+            "Hardware vs. software load balancers",
+            "L7 vs. L4 balancing",
+            "Consistent hashing",
+            "Session affinity",
+            "Health checks"
+          ]
+        },
+        {
+          "name": "Caching Strategies",
+          "subtopics": [
+            "CDN caching",
+            "Redis/Memcached",
+            "Cache invalidation patterns",
+            "Cache warming",
+            "Cache consistency"
+          ]
+        },
+        {
+          "name": "Horizontal Scaling",
+          "subtopics": [
+            "Stateless design",
+            "Auto scaling groups",
+            "Container orchestration",
+            "Load shedding",
+            "Circuit breakers"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Microservices",
+      "topics": [
+        {
+          "name": "Service Architecture",
+          "subtopics": [
+            "Service decomposition",
+            "Bounded contexts",
+            "API design guidelines",
+            "Contract testing",
+            "Service mesh (Istio/Linkerd)"
+          ]
+        },
+        {
+          "name": "Communication",
+          "subtopics": [
+            "Synchronous vs. asynchronous",
+            "REST vs. gRPC",
+            "Message queues (Kafka, RabbitMQ)",
+            "Event sourcing",
+            "Idempotency keys"
+          ]
+        },
+        {
+          "name": "Data Consistency",
+          "subtopics": [
+            "CAP theorem basics",
+            "Eventual consistency",
+            "Strong consistency models",
+            "Distributed transactions",
+            "Saga pattern"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reliability",
+      "topics": [
+        {
+          "name": "Fault Tolerance",
+          "subtopics": [
+            "Redundancy design",
+            "Graceful degradation",
+            "Circuit breakers",
+            "Bulkheads",
+            "Disaster recovery"
+          ]
+        },
+        {
+          "name": "Observability",
+          "subtopics": [
+            "Logging strategies",
+            "Distributed tracing",
+            "Metrics and monitoring",
+            "Alerting strategies",
+            "Dashboard creation"
+          ]
+        },
+        {
+          "name": "Disaster Recovery",
+          "subtopics": [
+            "Backup strategies",
+            "Region failover",
+            "RPO and RTO definitions",
+            "Testing recovery procedures",
+            "Cloud provider features"
+          ]
+        }
+      ]
+    }
+  ],
+  "completionTime": "8-14 months",
+  "updated": "2026"
+}

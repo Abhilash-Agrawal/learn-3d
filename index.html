@@ -7,10 +7,57 @@
   <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
-  <div id="app">
+  <!-- Landing Page -->
+  <div id="landing-page" style="display: block; width: 100%; height: 100%; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; box-sizing: border-box;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 40px 20px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+      <h1 style="text-align: center; font-size: 3rem; margin-bottom: 10px; color: white;">Siren Dashboard</h1>
+      <p style="text-align: center; font-size: 1.2rem; margin-bottom: 40px; opacity: 0.9;">Select a category to begin</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; justify-items: center; height: 50%;">
+        <!-- Frontend Card -->
+        <div style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); border-radius: 15px; padding: 30px 20px; backdrop-filter: blur(10px); transition: transform 0.3s ease; cursor: pointer; text-align: center;" onclick="window.showThreejsPage('frontend')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size: 2.5rem; margin-bottom: 10px;">🎨</div>
+          <h3 style="color: white; margin: 0 0 5px 0; text-align: center;">Frontend</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 5px; text-align: center;">Web Interfaces & Visualization</p>
+        </div>
+        
+        <!-- Backend Card -->
+        <div style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); border-radius: 15px; padding: 30px 20px; backdrop-filter: blur(10px); transition: transform 0.3s ease; cursor: pointer; text-align: center;" onclick="window.showThreejsPage('backend')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size: 2.5rem; margin-bottom: 10px;">🔧</div>
+          <h3 style="color: white; margin: 0 0 5px 0; text-align: center;">Backend</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 5px; text-align: center;">Server & Logic</p>
+        </div>
+        
+        <!-- Gen AI Card -->
+        <div style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); border-radius: 15px; padding: 30px 20px; backdrop-filter: blur(10px); transition: transform 0.3s ease; cursor: pointer; text-align: center;" onclick="window.showThreejsPage('gen-ai')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size: 2.5rem; margin-bottom: 10px;">🤖</div>
+          <h3 style="color: white; margin: 0 0 5px 0; text-align: center;">Gen AI</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 5px; text-align: center;">AI & Machine Learning</p>
+        </div>
+        
+        <!-- Cloud Card -->
+        <div style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); border-radius: 15px; padding: 30px 20px; backdrop-filter: blur(10px); transition: transform 0.3s ease; cursor: pointer; text-align: center;" onclick="window.showThreejsPage('cloud')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size: 2.5rem; margin-bottom: 10px;">☁️</div>
+          <h3 style="color: white; margin: 0 0 5px 0; text-align: center;">Cloud</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 5px; text-align: center;">AWS & Deployment</p>
+        </div>
+        
+        <!-- System Design Card -->
+        <div style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); border-radius: 15px; padding: 30px 20px; backdrop-filter: blur(10px); transition: transform 0.3s ease; cursor: pointer; text-align: center;" onclick="window.showThreejsPage('system-design')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size: 2.5rem; margin-bottom: 10px;">🏗️</div>
+          <h3 style="color: white; margin: 0 0 5px 0; text-align: center;">System Design</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 5px; text-align: center;">Architecture & Scalability</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three.js App -->
+  <div id="threejs-page" style="display: none; width: 100%; height: 100%; position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; background: black;">
     <canvas id="canvas"></canvas>
     <div id="ui-overlay"></div>
   </div>
+
   <script type="importmap">
     {
       "imports": {
@@ -18,6 +65,39 @@
       }
     }
   </script>
-  <script type="module" src="src/main.js?v=7"></script>
+  
+  <script type="module">
+    import { startSirenApp } from './src/main.js';
+
+    const landingPage = document.getElementById('landing-page');
+    const threejsPage = document.getElementById('threejs-page');
+    let appInitialized = false;
+
+    window.showThreejsPage = async (track) => {
+      if (appInitialized) return;
+
+      try {
+        const response = await fetch(new URL('./tracks.json', import.meta.url));
+        if (!response.ok) {
+          throw new Error(`Failed to load tracks.json (${response.status})`);
+        }
+
+        const tracksData = await response.json();
+        if (!tracksData[track]) {
+          throw new Error(`Unknown track: ${track}`);
+        }
+
+        threejsPage.style.display = 'block';
+        startSirenApp(tracksData, track);
+        appInitialized = true;
+        landingPage.style.display = 'none';
+      } catch (error) {
+        threejsPage.style.display = 'none';
+        landingPage.style.display = 'block';
+        console.error('Unable to start the selected track:', error);
+        window.alert(`Unable to open this track: ${error.message}`);
+      }
+    }
+  </script>
 </body>
 </html>

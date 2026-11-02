@@ -98,7 +98,7 @@ export class Actor {
     
     const indicator = new THREE.Mesh(
       new THREE.ConeGeometry(0.6, 1.5, 8),
-      new THREE.MeshBasicMaterial({ color: 0xfbbf24, emissive: 0xf59e0b, emissiveIntensity: 0.8, transparent: true, opacity: 0.9 })
+      new THREE.MeshBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.9 })
     );
     indicator.position.y = 8.5;
     indicator.rotation.x = -Math.PI / 2;
@@ -132,9 +132,11 @@ export class Actor {
       case 'ArrowDown': case 'KeyS': this.keys.backward = true; break;
       case 'ArrowLeft': case 'KeyA': this.keys.left = true; break;
       case 'ArrowRight': case 'KeyD': this.keys.right = true; break;
+      default: return;
     }
+    e.preventDefault();
   }
-  
+
   onKeyUp(e) {
     switch (e.code) {
       case 'ArrowUp': case 'KeyW': this.keys.forward = false; break;
@@ -146,10 +148,10 @@ export class Actor {
   
   update(delta) {
     const dir = new THREE.Vector3();
-    if (this.keys.forward) dir.z = -1;
-    if (this.keys.backward) dir.z = 1;
-    if (this.keys.left) dir.x = -1;
-    if (this.keys.right) dir.x = 1;
+    if (this.keys.forward) dir.z = 1;
+    if (this.keys.backward) dir.z = -1;
+    if (this.keys.left) dir.x = 1;
+    if (this.keys.right) dir.x = -1;
     
     const isMoving = dir.length() > 0;
     

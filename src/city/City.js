@@ -78,9 +78,9 @@ export class City {
         flatShading: true
       }),
       road: new THREE.MeshStandardMaterial({
-        color: 0x1F2937,
-        roughness: 0.95,
-        metalness: 0.05,
+        color: 0x34383b,
+        roughness: 0.96,
+        metalness: 0,
         flatShading: true
       }),
       roadLine: new THREE.MeshStandardMaterial({

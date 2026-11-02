@@ -1,0 +1,219 @@
+{
+  "title": "Backend Developer Roadmap",
+  "description": "Server-side development with Node.js, Python, Go, and more",
+  "categories": [
+    {
+      "name": "Node.js",
+      "topics": [
+        {
+          "name": "Node.js Fundamentals",
+          "subtopics": [
+            "Event loop architecture",
+            "Non-blocking I/O",
+            "Callback patterns",
+            "Promise patterns",
+            "Async/await syntax"
+          ]
+        },
+        {
+          "name": "Express.js",
+          "subtopics": [
+            "Routing basics",
+            "Middleware chain",
+            "Request handling",
+            "Response formatting",
+            "Error handling middleware"
+          ]
+        },
+        {
+          "name": "API Design",
+          "subtopics": [
+            "RESTful API design",
+            "HTTP methods and status codes",
+            "Request validation",
+            "Response schemas",
+            "API versioning"
+          ]
+        },
+        {
+          "name": "Database Integration",
+          "subtopics": [
+            "SQL databases (PostgreSQL, MySQL)",
+            "NoSQL databases (MongoDB, Redis)",
+            "ORM tools (Sequelize, Prisma)",
+            "Connection pooling",
+            "Migration strategies"
+          ]
+        },
+        {
+          "name": "Authentication & Authorization",
+          "subtopics": [
+            "JWT implementation",
+            "OAuth 2.0 flow",
+            "Session management",
+            "Password hashing",
+            "Role-based access control"
+          ]
+        },
+        {
+          "name": "Security",
+          "subtopics": [
+            "Input validation",
+            "SQL injection prevention",
+            "XSS protection",
+            "Rate limiting",
+            "Security headers"
+          ]
+        },
+        {
+          "name": "Advanced Node.js",
+          "subtopics": [
+            "Clustering and worker threads",
+            "Stream processing",
+            "File system operations",
+            "Error handling best practices",
+            "Performance profiling"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Python Backend",
+      "topics": [
+        {
+          "name": "Python Fundamentals",
+          "subtopics": [
+            "Python syntax and semantics",
+            "Virtual environments (venv, conda)",
+            "Package management (pip)",
+            "Decorators",
+            "Generators and iterators"
+          ]
+        },
+        {
+          "name": "Flask Framework",
+          "subtopics": [
+            "Route definition",
+            "Template rendering (Jinja2)",
+            "Request handling",
+            "Form validation",
+            "Session management"
+          ]
+        },
+        {
+          "name": "Django Framework",
+          "subtopics": [
+            "ORM and Models",
+            "Admin interface",
+            "URL routing",
+            "Form processing",
+            "Authentication system"
+          ]
+        },
+        {
+          "name": "FastAPI",
+          "subtopics": [
+            "Async endpoints",
+            "Data validation with Pydantic",
+            "Auto-generated API docs",
+            "Dependency injection",
+            "Background tasks"
+          ]
+        },
+        {
+          "name": "Async Programming",
+          "subtopics": [
+            "Async and await",
+            "Coroutines",
+            "Event loop",
+            "Concurrent execution",
+            "Task queues"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Database Design",
+      "topics": [
+        {
+          "name": "Relational Databases",
+          "subtopics": [
+            "Normalization forms (1NF, 2NF, 3NF)",
+            "Primary and foreign keys",
+            "Joins and subqueries",
+            "Indexing strategies",
+            "Transactions and ACID properties"
+          ]
+        },
+        {
+          "name": "NoSQL Databases",
+          "subtopics": [
+            "Document stores (MongoDB)",
+            "Key-value stores (Redis)",
+            "Column-family stores",
+            "Graph databases",
+            "CAP theorem basics"
+          ]
+        },
+        {
+          "name": "Database Modeling",
+          "subtopics": [
+            "ER diagrams",
+            "Schema design patterns",
+            "Migration strategies",
+            "Data normalization",
+            "Performance optimization"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DevOps & Deployment",
+      "topics": [
+        {
+          "name": "Containerization",
+          "subtopics": [
+            "Docker fundamentals",
+            "Dockerfile best practices",
+            "Docker Compose",
+            "Image optimization",
+            "Registry usage"
+          ]
+        },
+        {
+          "name": "Cloud Platforms",
+          "subtopics": [
+            "AWS EC2, S3, RDS",
+            "Azure App Service",
+            "Google Cloud Run",
+            "Platform configuration",
+            "Multi-cloud strategies"
+          ]
+        },
+        {
+          "name": "CI/CD Pipelines",
+          "subtopics": [
+            "GitHub Actions",
+            "GitLab CI",
+            "Jenkins pipelines",
+            "Build automation",
+            "Deployment strategies",
+            "Canary releases"
+          ]
+        },
+        {
+          "name": "Monitoring & Logging",
+          "subtopics": [
+            "Application monitoring",
+            "Log aggregation",
+            "Error tracking (Sentry)",
+            "Performance metrics",
+            "Alerting strategies"
+          ]
+        }
+      ]
+    }
+  ],
+  "completionTime": "8-14 months",
+  "updated": "2026"
+}
