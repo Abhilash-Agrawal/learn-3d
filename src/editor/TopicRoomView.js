@@ -145,6 +145,9 @@ export class TopicRoomView {
     const wallHeight = 14;
     const doorWidth = 6;
     const doorHeight = 9;
+    const signWidth = 14;
+    const signHeight = 3.8;
+    const wallOpeningWidth = signWidth + 2;
     const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xc9b99a, roughness: 1 });
     const trimMaterial = new THREE.MeshStandardMaterial({ color: 0x5b3e2b, roughness: 0.9 });
     const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x927653, roughness: 1 });
@@ -163,7 +166,7 @@ export class TopicRoomView {
       angle: (index / subtopics.length) * Math.PI * 2
     }));
 
-    const doorHalfAngle = (doorWidth / 2) / corridorRadius;
+    const doorHalfAngle = (wallOpeningWidth / 2) / corridorRadius;
     const addWallArc = (radius, startAngle, endAngle, thickness = 0.6) => {
       const arcLength = (endAngle - startAngle) * radius;
       const wallSegments = Math.max(1, Math.ceil(arcLength / 2));
@@ -231,12 +234,9 @@ export class TopicRoomView {
       knob.position.set(doorWidth / 2 - 1, 4.2, 0.22);
       door.add(knob);
 
-      const sign = this.createSign(String(subtopic));
-      sign.position.set(x, doorHeight + 2.5, z);
-      sign.scale.set(12, 3.2, 1);
-      this.signs ??= [];
-      this.signs.push(sign);
-      this.scene.add(sign);
+      const sign = this.createSign(String(subtopic), signWidth, signHeight);
+      sign.position.set(0, doorHeight + 2.5, 0.8);
+      door.add(sign);
       door.name = `Subtopic door ${index + 1}: ${subtopic}`;
       this.scene.add(door);
     });
@@ -311,7 +311,7 @@ export class TopicRoomView {
     event.preventDefault();
   }
 
-  createSign(text) {
+  createSign(text, width = 12, height = 3.2) {
     const canvas = document.createElement('canvas');
     canvas.width = 768;
     canvas.height = 192;
@@ -356,10 +356,9 @@ export class TopicRoomView {
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
-    const material = new THREE.SpriteMaterial({ map: texture });
+    const material = new THREE.MeshBasicMaterial({ map: texture });
     material.userData.ownedMap = true;
-    const sign = new THREE.Sprite(material);
-    sign.scale.set(18, 4.5, 1);
+    const sign = new THREE.Mesh(new THREE.PlaneGeometry(width, height), material);
     return sign;
   }
 
@@ -393,7 +392,6 @@ export class TopicRoomView {
       this.actor.position.copy(this.actorPosition);
     }
     this.cameraController.update();
-    this.signs?.forEach(sign => sign.quaternion.copy(this.camera.quaternion));
     this.renderer.render(this.scene, this.camera);
   }
 
