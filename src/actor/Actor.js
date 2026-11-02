@@ -10,6 +10,7 @@ export class Actor {
     this.position = new THREE.Vector3(0, 0, 0);
     this.rotation = 0;
     this.speed = 10;
+    this.enabled = true;
     
     this.keys = { forward: false, backward: false, left: false, right: false };
     
@@ -127,6 +128,7 @@ export class Actor {
   }
   
   onKeyDown(e) {
+    if (!this.enabled) return;
     switch (e.code) {
       case 'ArrowUp': case 'KeyW': this.keys.forward = true; break;
       case 'ArrowDown': case 'KeyS': this.keys.backward = true; break;
@@ -138,11 +140,22 @@ export class Actor {
   }
 
   onKeyUp(e) {
+    if (!this.enabled) return;
     switch (e.code) {
       case 'ArrowUp': case 'KeyW': this.keys.forward = false; break;
       case 'ArrowDown': case 'KeyS': this.keys.backward = false; break;
       case 'ArrowLeft': case 'KeyA': this.keys.left = false; break;
       case 'ArrowRight': case 'KeyD': this.keys.right = false; break;
+    }
+  }
+
+  setEnabled(enabled) {
+    this.enabled = enabled;
+    if (!enabled) {
+      this.keys.forward = false;
+      this.keys.backward = false;
+      this.keys.left = false;
+      this.keys.right = false;
     }
   }
   

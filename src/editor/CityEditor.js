@@ -11,7 +11,7 @@ export class CityEditor {
   static TRACK_ROAD_SPACING = 100;
   static TRACK_HOUSE_SPACING = 50;
 
-  constructor(scene, city, camera, canvas, onChange, cameraController = null, tracksData = null, currentTrack = 'frontend', dayNightCycle = null) {
+  constructor(scene, city, camera, canvas, onChange, cameraController = null, tracksData = null, currentTrack = 'frontend', dayNightCycle = null, onTopicOpen = null) {
     this.scene = scene;
     this.city = city;
     this.camera = camera;
@@ -20,6 +20,7 @@ export class CityEditor {
     this.cameraController = cameraController;
     this.trackData = tracksData?.[currentTrack] ?? null;
     this.dayNightCycle = dayNightCycle;
+    this.onTopicOpen = onTopicOpen;
     
     this.mode = 'select';
     this.buildingType = 'tower';
@@ -615,6 +616,10 @@ bindEvents() {
     }
     
     if (target) {
+      if (target.userData.buildingType === 'topicHouse' && this.onTopicOpen) {
+        this.onTopicOpen(target.userData);
+        return;
+      }
       this.selectObject(target);
     } else {
       this.deselect();

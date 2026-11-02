@@ -8,6 +8,7 @@ import { SelectionManager } from './core/SelectionManager.js';
 import { CameraController } from './core/CameraController.js';
 import { CityEditor } from './editor/CityEditor.js';
 import { Actor } from './actor/Actor.js';
+import { TopicRoomView } from './editor/TopicRoomView.js';
 
 function showError(message) {
   const errorElement = document.createElement('div');
@@ -76,7 +77,8 @@ class SirenApp {
       this.cameraController,
       tracksData,
       currentTrack,
-      this.dayNightCycle
+      this.dayNightCycle,
+      (topicData) => this.openTopicRooms(topicData)
     );
 
     this.clock = new THREE.Clock();
@@ -262,6 +264,38 @@ class SirenApp {
     });
     this.uiOverlay.appendChild(button);
     this.personViewButton = button;
+  }
+
+  openTopicRooms(topicData) {
+    this.closeTopicRooms();
+    this.roomViewUiState = {
+      editorPanelDisplay: this.editor.panel.style.display,
+      personViewButtonDisplay: this.personViewButton.style.display,
+      actorEnabled: this.actor.enabled
+    };
+    this.editor.panel.style.display = 'none';
+    this.personViewButton.style.display = 'none';
+    this.actor.setEnabled?.(false);
+    try {
+      this.roomView = new TopicRoomView(topicData, () => this.closeTopicRooms());
+    } catch (error) {
+      this.restoreVillageControls();
+      throw error;
+    }
+  }
+
+  closeTopicRooms() {
+    this.roomView?.dispose();
+    this.roomView = null;
+    this.restoreVillageControls();
+  }
+
+  restoreVillageControls() {
+    if (!this.roomViewUiState) return;
+    this.editor.panel.style.display = this.roomViewUiState.editorPanelDisplay;
+    this.personViewButton.style.display = this.roomViewUiState.personViewButtonDisplay;
+    this.actor.setEnabled?.(this.roomViewUiState.actorEnabled);
+    this.roomViewUiState = null;
   }
 
   animate() {
