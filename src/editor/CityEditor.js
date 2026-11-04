@@ -11,7 +11,7 @@ export class CityEditor {
   static TRACK_ROAD_SPACING = 100;
   static TRACK_HOUSE_SPACING = 50;
 
-  constructor(scene, city, camera, canvas, onChange, cameraController = null, tracksData = null, currentTrack = 'frontend', dayNightCycle = null, onTopicOpen = null) {
+  constructor(scene, city, camera, canvas, onChange, cameraController = null, tracksData = null, currentTrack = 'frontend', dayNightCycle = null, onTopicOpen = null, onDoorOpen = null) {
     this.scene = scene;
     this.city = city;
     this.camera = camera;
@@ -21,6 +21,7 @@ export class CityEditor {
     this.trackData = tracksData?.[currentTrack] ?? null;
     this.dayNightCycle = dayNightCycle;
     this.onTopicOpen = onTopicOpen;
+    this.onDoorOpen = onDoorOpen;
     
     this.mode = 'select';
     this.buildingType = 'tower';
@@ -206,6 +207,15 @@ export class CityEditor {
       this.city.materials.buildingDark
     );
     door.position.set(0, 2.1, 6.1);
+    door.userData = {
+      editorObject: true,
+      editorType: 'Door',
+      buildingType: 'door',
+      topic: topic.name,
+      subtopics: subtopics
+    };
+    door.castShadow = true;
+    door.receiveShadow = true;
     house.add(door);
 
     const windowGeometry = new THREE.BoxGeometry(2.2, 2, 0.2);
@@ -618,6 +628,10 @@ bindEvents() {
     if (target) {
       if (target.userData.buildingType === 'topicHouse' && this.onTopicOpen) {
         this.onTopicOpen(target.userData);
+        return;
+      }
+      if (target.userData.editorType === 'Door' && this.onDoorOpen) {
+        this.onDoorOpen(target.userData);
         return;
       }
       this.selectObject(target);

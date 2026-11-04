@@ -9,6 +9,7 @@ import { CameraController } from './core/CameraController.js';
 import { CityEditor } from './editor/CityEditor.js';
 import { Actor } from './actor/Actor.js';
 import { TopicRoomView } from './editor/TopicRoomView.js';
+import { DoorView } from './editor/DoorView.js';
 
 function showError(message) {
   const errorElement = document.createElement('div');
@@ -78,7 +79,8 @@ class SirenApp {
       tracksData,
       currentTrack,
       this.dayNightCycle,
-      (topicData) => this.openTopicRooms(topicData)
+      (topicData) => this.openTopicRooms(topicData),
+      (doorData) => this.openDoorView(doorData)
     );
 
     this.clock = new THREE.Clock();
@@ -267,17 +269,27 @@ class SirenApp {
   }
 
   openTopicRooms(topicData) {
+    this.closeDoorView();
     this.closeTopicRooms();
-    this.roomViewUiState = {
-      editorPanelDisplay: this.editor.panel.style.display,
-      personViewButtonDisplay: this.personViewButton.style.display,
-      actorEnabled: this.actor.enabled
-    };
-    this.editor.panel.style.display = 'none';
-    this.personViewButton.style.display = 'none';
-    this.actor.setEnabled?.(false);
+    this.hideVillageControls();
     try {
-      this.roomView = new TopicRoomView(topicData, () => this.closeTopicRooms());
+      this.roomView = new TopicRoomView(
+        topicData,
+        () => this.closeTopicRooms(),
+        doorData => this.openDoorView(doorData)
+      );
+    } catch (error) {
+      this.restoreVillageControls();
+      throw error;
+    }
+  }
+
+  openDoorView(doorData) {
+    this.closeTopicRooms();
+    this.closeDoorView();
+    this.hideVillageControls();
+    try {
+      this.doorView = new DoorView(doorData, () => this.closeDoorView());
     } catch (error) {
       this.restoreVillageControls();
       throw error;
@@ -288,6 +300,25 @@ class SirenApp {
     this.roomView?.dispose();
     this.roomView = null;
     this.restoreVillageControls();
+  }
+
+  closeDoorView() {
+    this.doorView?.dispose();
+    this.doorView = null;
+    this.restoreVillageControls();
+  }
+
+  hideVillageControls() {
+    if (!this.roomViewUiState) {
+      this.roomViewUiState = {
+        editorPanelDisplay: this.editor.panel.style.display,
+        personViewButtonDisplay: this.personViewButton.style.display,
+        actorEnabled: this.actor.enabled
+      };
+    }
+    this.editor.panel.style.display = 'none';
+    this.personViewButton.style.display = 'none';
+    this.actor.setEnabled?.(false);
   }
 
   restoreVillageControls() {

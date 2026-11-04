@@ -2,14 +2,18 @@ import * as THREE from 'three';
 import { CameraController } from '../core/CameraController.js';
 
 export class TopicRoomView {
-  constructor(topicData, onClose) {
+  constructor(topicData, onClose, onDoorOpen = null) {
     this.topicData = topicData;
     this.onClose = onClose;
+    this.onDoorOpen = onDoorOpen;
     this.frameId = null;
     this.disposed = false;
     this.actorKeys = { forward: false, backward: false, left: false, right: false };
     this.actorPosition = new THREE.Vector3();
     this.clock = new THREE.Clock();
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+    this.doors = [];
 
     this.element = document.createElement('section');
     this.element.setAttribute('aria-label', `${topicData.topic} subtopic doors`);
@@ -25,6 +29,7 @@ export class TopicRoomView {
     this.canvas = document.createElement('canvas');
     this.canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;';
     this.element.appendChild(this.canvas);
+    this.canvas.addEventListener('click', this.onCanvasClick);
 
     this.header = document.createElement('div');
     this.header.style.cssText = `
@@ -203,7 +208,7 @@ export class TopicRoomView {
       const door = new THREE.Group();
       door.position.set(x, 0, z);
       door.rotation.y = angle + Math.PI;
-      door.userData.subtopic = subtopic;
+      door.userData = { subtopic, topic: String(subtopic) };
       const panel = new THREE.Mesh(
         new THREE.BoxGeometry(doorWidth - 0.4, doorHeight - 0.2, 0.35),
         doorMaterial
@@ -239,6 +244,7 @@ export class TopicRoomView {
       door.add(sign);
       door.name = `Subtopic door ${index + 1}: ${subtopic}`;
       this.scene.add(door);
+      this.doors.push(door);
     });
 
     for (let index = 0; index < Math.min(8, subtopics.length); index++) {
@@ -262,6 +268,31 @@ export class TopicRoomView {
 
     return corridorRadius;
   }
+
+  onCanvasClick = event => {
+    if (!this.onDoorOpen || event.target !== this.canvas) return;
+
+    const bounds = this.canvas.getBoundingClientRect();
+    this.mouse.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+    this.mouse.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+    const intersections = this.raycaster.intersectObjects(this.doors, true);
+    if (intersections.length === 0) return;
+
+    let door = intersections[0].object;
+    while (door && !Object.hasOwn(door.userData, 'subtopic')) {
+      door = door.parent;
+    }
+    if (!door) return;
+
+    this.onDoorOpen({
+      topic: door.userData.topic,
+      subtopic: door.userData.subtopic,
+      category: this.topicData.topic,
+      parentTopic: this.topicData.topic
+    });
+  };
 
   createActor() {
     this.actor = new THREE.Group();
@@ -402,6 +433,7 @@ export class TopicRoomView {
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
+    this.canvas.removeEventListener('click', this.onCanvasClick);
     this.scene.traverse(object => {
       object.geometry?.dispose();
       const materials = Array.isArray(object.material) ? object.material : [object.material];
